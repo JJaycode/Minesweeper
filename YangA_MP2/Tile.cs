@@ -16,6 +16,7 @@ namespace YangA_MP2
         private bool isRevealed = false;
         private int row;
         private int column;
+        private int bombColor = -1;
 
         List<Tile> adjescantTiles = new List<Tile> { };
 
@@ -25,6 +26,16 @@ namespace YangA_MP2
             this.column = column;
             this.x = x;
             this.y = y;
+        }
+
+        public int GetBombColor()
+        {
+            return bombColor;
+        }
+
+        public void SetBombColor(int randomNum)
+        {
+            bombColor = randomNum;
         }
 
         public bool GetRevealed()
