@@ -13,6 +13,7 @@ namespace YangA_MP2
         private int x;
         private int y;
         private bool isChecked = false;
+        private bool isRevealed = false;
         private int row;
         private int column;
 
@@ -24,6 +25,16 @@ namespace YangA_MP2
             this.column = column;
             this.x = x;
             this.y = y;
+        }
+
+        public bool GetRevealed()
+        {
+            return isRevealed;
+        }
+
+        public void SetRevealed(bool isRevealed)
+        {
+            this.isRevealed = isRevealed;
         }
 
         public int GetRow()
