@@ -8,7 +8,6 @@ namespace YangA_MP2
 {
     public class Tile
     {
-
         private int state;
         private int x;
         private int y;
@@ -74,7 +73,7 @@ namespace YangA_MP2
                 case Game1.MEDIUM:
                     for (int i = 0; i < bombs.Count; i++)
                     {
-                        if (bombs[i] == (x + Game1.MEDIUM_COLUMN * y))
+                        if (bombs[i] == (column + Game1.MEDIUM_COLUMN * row))
                         {
                             return true;
                         }
@@ -83,7 +82,7 @@ namespace YangA_MP2
                 case Game1.HARD:
                     for (int i = 0; i < bombs.Count; i++)
                     {
-                        if (bombs[i] == (x + Game1.HARD_COLUMN * y))
+                        if (bombs[i] == (column + Game1.HARD_COLUMN * row))
                         {
                             return true;
                         }
@@ -192,7 +191,6 @@ namespace YangA_MP2
         {
             if (IsBomb(Game1.Bombs) == false && GetChecked() == false && BombCount(Game1.Bombs) == 0)
             {
-                //to do: reveal tile
                 SetState(Game1.REVEALED);
                 SetChecked(true);
 
