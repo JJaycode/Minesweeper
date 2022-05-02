@@ -179,6 +179,8 @@ namespace YangA_MP2
 
         Timer instTimer;
 
+        SoundEffect soundEffect;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -220,6 +222,8 @@ namespace YangA_MP2
             onRect = new Rectangle(365, 12, 30, HUD_SPRITE_HEIGHT);
             soundOff = Content.Load<Texture2D>("Images/Sprites/SoundOff");
             offRect = new Rectangle(365, 12, 30, HUD_SPRITE_HEIGHT);
+
+            soundEffects.
 
             one = Content.Load<Texture2D>("Images/Sprites/1");
             //oneRect = new Rectangle(365, 12, 30, 30);
@@ -316,6 +320,7 @@ namespace YangA_MP2
                         gameState = GAMEPLAY;
                     }
                     break;
+
                 case GAMEPLAY:
 
                     gameTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
@@ -851,13 +856,24 @@ namespace YangA_MP2
                 {
                     if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
                     {
-                        Tiles[i, j].RevealTiles();
-
                         if (Tiles[i, j].IsBomb(Bombs) == true)
                         {
                             ShowAllBomb(row, column);
 
-                            gameState = LOSE;
+                            //instTimer.ResetTimer(true);
+                            
+                            //double timePassed = instTimer.GetTimePassed();
+                            ////int secPassed = 0;
+
+                            //if (timePassed >= 2000)
+                            {
+                                gameState = LOSE;
+                            }
+
+                        }
+                        else
+                        {
+                            Tiles[i, j].RevealTiles();
                         }
                     }
                 }
