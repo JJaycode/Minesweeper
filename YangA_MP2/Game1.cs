@@ -533,9 +533,19 @@ namespace YangA_MP2
 
                     if (gameTimer.IsActive())
                     {
-
                         Vector2 timerLoc = new Vector2(260, 20);
-                        spriteBatch.DrawString(gameFont, gameTimer.GetTimePassedAsString(Timer.FORMAT_MIN_SEC_MIL), timerLoc, Color.White);
+
+                        double passedTime = gameTimer.GetTimePassed();
+                        int passedSec = 0;
+
+                        if (passedTime > 1000.0)
+                        {
+                            passedSec = (int)(passedTime / 1000.0);
+                            //time -= (double)(num3 * 1000);
+                        }
+
+                        //spriteBatch.DrawString(gameFont, gameTimer.GetTimePassedAsString(Timer.FORMAT_MIN_SEC_MIL), timerLoc, Color.White);
+                        spriteBatch.DrawString(gameFont, passedSec.ToString("000"), timerLoc, Color.White);
                     }
 
                     for (int i = 0; i < EASY_ROWS; i++)
