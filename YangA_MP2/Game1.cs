@@ -19,6 +19,9 @@ namespace YangA_MP2
     /// </summary>
     public class Game1 : Game
     {
+        private static StreamReader fileReader;
+        private static StreamWriter fileWriter;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
@@ -81,8 +84,19 @@ namespace YangA_MP2
 
         private bool isMuted = false;
 
+        private static int currentTime;
+        private static int highTime = 0;
+
+        public static string resultFile = "results.txt";
+
         Texture2D easyBoard;
         Rectangle easyBoardRect;
+
+        Texture2D medBoard;
+        Rectangle medBoardRect;
+
+        Texture2D hardBoard;
+        Rectangle hardBoardRect;
 
         Texture2D clock;
         Rectangle clockRect;
@@ -196,6 +210,8 @@ namespace YangA_MP2
             // TODO: Add your initialization logic here
             ResetGame();
 
+            ReadFile("results.txt");
+
             base.Initialize();
         }
 
@@ -210,33 +226,25 @@ namespace YangA_MP2
 
             easyBoard = Content.Load<Texture2D>("Images/Backgrounds/board_easy");
             easyBoardRect = new Rectangle(0, HUD_HEIGHT, easyBoard.Width, easyBoard.Height);
+            medBoard = Content.Load<Texture2D>("Images/Sprites/board_med");
+            medBoardRect = new Rectangle(0, HUD_HEIGHT, medBoard.Width, medBoard.Height);
+            hardBoard = Content.Load<Texture2D>("Images/Sprites/board_hard");
+            hardBoardRect = new Rectangle(0, HUD_HEIGHT, hardBoard.Width, hardBoard.Height);
+
             clock = Content.Load<Texture2D>("Images/Sprites/Watch");
-            clockRect = new Rectangle(220, 12, 30, HUD_SPRITE_HEIGHT);
             flag = Content.Load<Texture2D>("Images/Sprites/flag");
-            flagRect = new Rectangle(140, 12, 35, HUD_SPRITE_HEIGHT);
             hud = Content.Load<Texture2D>("Images/Sprites/HUDBar");
-            hudRect = new Rectangle(0, 0, easyBoard.Width, hud.Height);
             soundOn = Content.Load<Texture2D>("Images/Sprites/SoundOn");
-            onRect = new Rectangle(365, 12, 30, HUD_SPRITE_HEIGHT);
             soundOff = Content.Load<Texture2D>("Images/Sprites/SoundOff");
-            offRect = new Rectangle(365, 12, 30, HUD_SPRITE_HEIGHT);
 
             one = Content.Load<Texture2D>("Images/Sprites/1");
-            //oneRect = new Rectangle(365, 12, 30, 30);
             two = Content.Load<Texture2D>("Images/Sprites/2");
-            //twoRect = new Rectangle(365, 12, 30, 30);
             three = Content.Load<Texture2D>("Images/Sprites/3");
-            //threeRect = new Rectangle(365, 12, 30, 30);
             four = Content.Load<Texture2D>("Images/Sprites/4");
-            //fourRect = new Rectangle(365, 12, 30, 30);
             five = Content.Load<Texture2D>("Images/Sprites/5");
-            //fiveRect = new Rectangle(365, 12, 30, 30);
             six = Content.Load<Texture2D>("Images/Sprites/6");
-            //sixRect = new Rectangle(365, 12, 30, 30);
             seven = Content.Load<Texture2D>("Images/Sprites/7");
-            //sevenRect = new Rectangle(365, 12, 30, 30);
             eight = Content.Load<Texture2D>("Images/Sprites/8");
-            //eightRect = new Rectangle(365, 12, 30, 30);
 
             clearDark = Content.Load<Texture2D>("Images/Sprites/Clear_Dark");
             clearLight = Content.Load<Texture2D>("Images/Sprites/Clear_Light");
@@ -316,6 +324,7 @@ namespace YangA_MP2
                         gameState = GAMEPLAY;
                     }
                     break;
+
                 case GAMEPLAY:
 
                     gameTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
@@ -345,8 +354,10 @@ namespace YangA_MP2
                                 {
                                     gameState = SWITCH;
                                 }
-
-                                RevealTiles(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
+                                else
+                                {
+                                    RevealTiles(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
+                                }
                             }
                             break;
                         case MEDIUM:
@@ -366,8 +377,10 @@ namespace YangA_MP2
                                 {
                                     gameState = SWITCH;
                                 }
-
-                                RevealTiles(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
+                                else
+                                {
+                                    RevealTiles(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
+                                }
                             }
                             break;
                         case HARD:
@@ -387,16 +400,19 @@ namespace YangA_MP2
                                 {
                                     gameState = SWITCH;
                                 }
-
-                                RevealTiles(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
+                                else
+                                {
+                                    RevealTiles(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
+                                }
                             }
-                                break;
-                    }    
+                            break;
+                    }
                     break;
+
                 case SWITCH:
                     if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
-                        switch (gameState)
+                        switch (gameDiff)
                         {
                             case EASY:
                                 if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3)
@@ -415,14 +431,50 @@ namespace YangA_MP2
                                 }
                                 break;
                             case MEDIUM:
+                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3)
+                                {
+                                    gameDiff = MEDIUM;      
+                                }
+                                else if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT)
+                                {
+                                    gameDiff = HARD;
+                                    ResetGame();
+                                }
+                                else if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3)
+                                {
+                                    gameDiff = EASY;
+                                    ResetGame();
+                                }
                                 break;
                             case HARD:
+                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3)
+                                {
+                                    gameDiff = MEDIUM;
+                                    ResetGame();
+                                }
+                                else if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT)
+                                {
+                                    gameDiff = HARD;
+                                }
+                                else if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3)
+                                {
+                                    gameDiff = EASY;
+                                    ResetGame();
+                                }
                                 break;
                         }
                         gameState = GAMEPLAY;
                     }
                     break;
+
                 case LOSE:
+                    if (currentTime > highTime)
+                    {
+                        highTime = currentTime;
+                    }
+
+                    WriteFile();
+
                     if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
                         if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
@@ -432,7 +484,17 @@ namespace YangA_MP2
                         }
                     }
                     break;
+
                 case WIN:
+                    currentTime = Convert.ToInt32(gameTimer.GetTimePassed() / 1000);
+
+                    if (currentTime > highTime)
+                    {
+                        highTime = currentTime;
+                    }
+
+                    WriteFile();
+
                     if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
                         if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
@@ -491,17 +553,17 @@ namespace YangA_MP2
 
                     if (gameDiff == EASY)
                     {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 9, 5, 5);
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 7, 5, 5);
                         spriteBatch.Draw(check, checkRect, Color.White);
                     }
                     else if (gameDiff == MEDIUM)
                     {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 6, 5, 5);
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + 4, 5, 5);
                         spriteBatch.Draw(check, checkRect, Color.White);
                     }
                     else if (gameDiff == HARD)
                     {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 3, 5, 5);
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3, 5, 5);
                         spriteBatch.Draw(check, checkRect, Color.White);
                     }
                     spriteBatch.End();
@@ -516,8 +578,18 @@ namespace YangA_MP2
             switch (gameDiff)
             {
                 case EASY:
+                    offRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    onRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    clockRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
+                    flagRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
+                    hudRect = new Rectangle(0, 0, easyBoard.Width, hud.Height);
+
                     spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
                     spriteBatch.Draw(hud, hudRect, Color.White);
+                    spriteBatch.Draw(clock, clockRect, Color.White);
+                    spriteBatch.Draw(flag, flagRect, Color.White);
+                    spriteBatch.Draw(soundOn, onRect, Color.White);
+                    spriteBatch.Draw(soundOff, offRect, Color.White);
 
                     Rectangle easyButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
                     spriteBatch.Draw(easyButton, easyButtonRect, Color.White);
@@ -651,47 +723,433 @@ namespace YangA_MP2
                     }
                     break;
                 case MEDIUM:
-                    spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
+                    offRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    onRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    clockRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
+                    flagRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
+                    hudRect = new Rectangle(0, 0, medBoard.Width, hud.Height);
+
+                    spriteBatch.Draw(medBoard, medBoardRect, Color.White);
                     spriteBatch.Draw(hud, hudRect, Color.White);
+                    spriteBatch.Draw(clock, clockRect, Color.White);
+                    spriteBatch.Draw(flag, flagRect, Color.White);
+                    spriteBatch.Draw(soundOn, onRect, Color.White);
+                    spriteBatch.Draw(soundOff, offRect, Color.White);
+
+                    Rectangle medButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
+                    spriteBatch.Draw(mediumButton, medButtonRect, Color.White);
+
+                    Vector2 flagLocMed = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 265, 20);
+                    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocMed, Color.White);
+
+                    if (gameTimer.IsActive())
+                    {
+                        double timePassed = gameTimer.GetTimePassed();
+                        int secPassed = 0;
+
+                        if (timePassed > 1000)
+                        {
+                            secPassed = Convert.ToInt32(timePassed / 1000);
+                        }
+
+                        Vector2 timerLoc = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 190, 20);
+                        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
+                    }
+
+                    for (int i = 0; i < MEDIUM_ROWS; i++)
+                    {
+                        for (int j = 0; j < MEDIUM_COLUMN; j++)
+                        {
+                            if (Tiles[i, j].GetState() == FLAG)
+                            {
+                                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                spriteBatch.Draw(flag, flagTileRect, Color.White);
+                            }
+
+                            if (Tiles[i, j].GetState() == REVEALED)
+                            {
+                                //Different places are different sprites on board
+                                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
+                                {
+                                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
+                                }
+                                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
+                                {
+                                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
+                                }
+
+                                switch (Tiles[i, j].BombCount(Bombs))
+                                {
+                                    case 1:
+                                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(one, oneRect, Color.White);
+                                        break;
+                                    case 2:
+                                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(two, twoRect, Color.White);
+                                        break;
+                                    case 3:
+                                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(three, threeRect, Color.White);
+                                        break;
+                                    case 4:
+                                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(four, fourRect, Color.White);
+                                        break;
+                                    case 5:
+                                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(five, fiveRect, Color.White);
+                                        break;
+                                    case 6:
+                                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(six, sixRect, Color.White);
+                                        break;
+                                    case 7:
+                                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(seven, sevenRect, Color.White);
+                                        break;
+                                    case 8:
+                                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(eight, eightRect, Color.White);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+
+                            if (Tiles[i, j].GetBombColor() == -1)
+                            {
+                                int num = rnd.Next(1, 9);
+
+                                Tiles[i, j].SetBombColor(num);
+                            }
+
+                            if (Tiles[i, j].GetState() == BOMB)
+                            {
+                                switch (Tiles[i, j].GetBombColor())
+                                {
+                                    case 1:
+                                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
+                                        break;
+                                    case 2:
+                                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
+                                        break;
+                                    case 3:
+                                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
+                                        break;
+                                    case 4:
+                                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
+                                        break;
+                                    case 5:
+                                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
+                                        break;
+                                    case 6:
+                                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
+                                        break;
+                                    case 7:
+                                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
+                                        break;
+                                    case 8:
+                                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
+                                        break;
+                                }
+                            }
+                        }
+                    }
                     break;
                 case HARD:
-                    spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
+                    offRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    onRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    clockRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
+                    flagRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
+                    hudRect = new Rectangle(0, 0, hardBoard.Width, hud.Height);
+
+                    spriteBatch.Draw(hardBoard, hardBoardRect, Color.White);
                     spriteBatch.Draw(hud, hudRect, Color.White);
+                    spriteBatch.Draw(clock, clockRect, Color.White);
+                    spriteBatch.Draw(flag, flagRect, Color.White);
+                    spriteBatch.Draw(soundOn, onRect, Color.White);
+                    spriteBatch.Draw(soundOff, offRect, Color.White);
+
+                    Rectangle hardButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
+                    spriteBatch.Draw(hardButton, hardButtonRect, Color.White);
+
+                    Vector2 flagLocHard = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 270, 20);
+                    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocHard, Color.White);
+
+                    if (gameTimer.IsActive())
+                    {
+                        double timePassed = gameTimer.GetTimePassed();
+                        int secPassed = 0;
+
+                        if (timePassed > 1000)
+                        {
+                            secPassed = Convert.ToInt32(timePassed / 1000);
+                        }
+
+                        Vector2 timerLoc = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 190, 20);
+                        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
+                    }
+
+                    for (int i = 0; i < HARD_ROWS; i++)
+                    {
+                        for (int j = 0; j < HARD_COLUMN; j++)
+                        {
+                            if (Tiles[i, j].GetState() == FLAG)
+                            {
+                                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                spriteBatch.Draw(flag, flagTileRect, Color.White);
+                            }
+
+                            if (Tiles[i, j].GetState() == REVEALED)
+                            {
+                                //Different places are different sprites on board
+                                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
+                                {
+                                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
+                                }
+                                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
+                                {
+                                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
+                                }
+
+                                switch (Tiles[i, j].BombCount(Bombs))
+                                {
+                                    case 1:
+                                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(one, oneRect, Color.White);
+                                        break;
+                                    case 2:
+                                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(two, twoRect, Color.White);
+                                        break;
+                                    case 3:
+                                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(three, threeRect, Color.White);
+                                        break;
+                                    case 4:
+                                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(four, fourRect, Color.White);
+                                        break;
+                                    case 5:
+                                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(five, fiveRect, Color.White);
+                                        break;
+                                    case 6:
+                                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(six, sixRect, Color.White);
+                                        break;
+                                    case 7:
+                                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(seven, sevenRect, Color.White);
+                                        break;
+                                    case 8:
+                                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(eight, eightRect, Color.White);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+
+                            if (Tiles[i, j].GetBombColor() == -1)
+                            {
+                                int num = rnd.Next(1, 9);
+
+                                Tiles[i, j].SetBombColor(num);
+                            }
+
+                            if (Tiles[i, j].GetState() == BOMB)
+                            {
+                                switch (Tiles[i, j].GetBombColor())
+                                {
+                                    case 1:
+                                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
+                                        break;
+                                    case 2:
+                                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
+                                        break;
+                                    case 3:
+                                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
+                                        break;
+                                    case 4:
+                                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
+                                        break;
+                                    case 5:
+                                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
+                                        break;
+                                    case 6:
+                                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
+                                        break;
+                                    case 7:
+                                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
+                                        break;
+                                    case 8:
+                                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
+                                        break;
+                                }
+                            }
+                        }
+                    }
                     break;
             }
-
-            spriteBatch.Draw(clock, clockRect, Color.White);
-            spriteBatch.Draw(flag, flagRect, Color.White);
-            spriteBatch.Draw(soundOn, onRect, Color.White);
-            spriteBatch.Draw(soundOff, offRect, Color.White);
-
         }
 
         private void DrawLose()
         {
-            Rectangle gameLoseRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, 100, gameLose.Width, gameLose.Height);
-            spriteBatch.Draw(gameLose, gameLoseRec, Color.White);
-            Rectangle gameLoseNoScoreRec = new Rectangle(100, 250, gameLoseNoScore.Width, gameLoseNoScore.Height);
-            spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec, Color.White);
-            Rectangle gameLoseRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, 100 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-            spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec, Color.White);
+            switch (gameDiff)
+            {
+                case EASY:
+                    Rectangle gameLoseRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+                    spriteBatch.Draw(gameLose, gameLoseRec, Color.White);
+                    Rectangle gameLoseNoScoreRec = new Rectangle(135, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                    spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec, Color.White);
+                    Rectangle gameLoseRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+                    spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec, Color.White);
+
+                    if (highTime == 0)
+                    {
+                        Rectangle gameLoseNoScoreRec3 = new Rectangle(265, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec3, Color.White);
+                    }
+                    else
+                    {
+                        Vector2 highScoreLoc = new Vector2(275, 200);
+                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+                    }
+                    break;
+                case MEDIUM:
+                    Rectangle gameLoseRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+                    spriteBatch.Draw(gameLose, gameLoseRec2, Color.White);
+                    Rectangle gameLoseNoScoreRec2 = new Rectangle(180, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                    spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec2, Color.White);
+                    Rectangle gameLoseRetryRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+                    spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec2, Color.White);
+
+                    if (highTime == 0)
+                    {
+                        Rectangle gameLoseNoScoreRec5 = new Rectangle(310, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec5, Color.White);
+                    }
+                    else
+                    {
+                        Vector2 highScoreLoc = new Vector2(310, 235);
+                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+                    }
+                    break;
+                case HARD:
+                    Rectangle gameLoseRec4 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+                    spriteBatch.Draw(gameLose, gameLoseRec4, Color.White);
+                    Rectangle gameLoseNoScoreRec4 = new Rectangle(210, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                    spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec4, Color.White);
+                    Rectangle gameLoseRetryRec4 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+                    spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec4, Color.White);
+
+                    if (highTime == 0)
+                    {
+                        Rectangle gameLoseNoScoreRec6 = new Rectangle(340, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec6, Color.White);
+                    }
+                    else
+                    {
+                        Vector2 highScoreLoc = new Vector2(340, 235);
+                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+                    }
+                    break;
+            }
         }
 
         private void DrawWin()
         {
-            Rectangle gameWinRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, 100, gameLose.Width, gameLose.Height);
-            spriteBatch.Draw(gameWin, gameWinRec, Color.White); ;
-            Rectangle gameWinRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, 100 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-            spriteBatch.Draw(gameWinRetry, gameWinRetryRec, Color.White);
+            switch (gameDiff)
+            {
+                case EASY:
+                    Rectangle gameWinRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+                    spriteBatch.Draw(gameWin, gameWinRec, Color.White);
+                    Rectangle gameWinRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+                    spriteBatch.Draw(gameWinRetry, gameWinRetryRec, Color.White);
+                    Vector2 currentScorLoc = new Vector2(135, 200);
+                    spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc, Color.White);
+
+                    if (highTime == 0)
+                    {
+                        Rectangle gameLoseNoScoreRec3 = new Rectangle(265, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec3, Color.White);
+                    }
+                    else
+                    {
+                        Vector2 highScoreLoc = new Vector2(275, 200);
+                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+                    }
+                    break;
+                case MEDIUM:
+                    Rectangle gameWinRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+                    spriteBatch.Draw(gameWin, gameWinRec2, Color.White);
+                    Rectangle gameWinRetryRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+                    spriteBatch.Draw(gameWinRetry, gameWinRetryRec2, Color.White);
+                    Vector2 currentScorLoc2 = new Vector2(180, 235);
+                    spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc2, Color.White);
+
+                    if (highTime == 0)
+                    {
+                        Rectangle gameLoseNoScoreRec5 = new Rectangle(310, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec5, Color.White);
+                    }
+                    else
+                    {
+                        Vector2 highScoreLoc2 = new Vector2(310, 235);
+                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc2, Color.White);
+                    }
+                    break;
+                case HARD:
+                    Rectangle gameWinRec3 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+                    spriteBatch.Draw(gameWin, gameWinRec3, Color.White);
+                    Rectangle gameWinRetryRec3 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+                    spriteBatch.Draw(gameWinRetry, gameWinRetryRec3, Color.White);
+                    Vector2 currentScorLoc3 = new Vector2(210, 235);
+                    spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc3, Color.White);
+
+                    if (highTime == 0)
+                    {
+                        Rectangle gameLoseNoScoreRec6 = new Rectangle(340, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec6, Color.White);
+                    }
+                    else
+                    {
+                        Vector2 highScoreLoc3 = new Vector2(340, 235);
+                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc3, Color.White);
+                    }
+                    break;
+            }
         }
 
 
         private void DrawInstruction()
         {
-            Rectangle inst1Rect = new Rectangle(100, 100, 100, 100);
+            Rectangle inst1Rect = new Rectangle((EASY_COLUMN * EASY_TILE_SIZE) / 2 -100, (EASY_ROWS * EASY_TILE_SIZE) / 2 - 50, 100, 100);
             spriteBatch.Draw(inst1, inst1Rect, Color.White);
 
-            Rectangle inst2Rect = new Rectangle(100, 100, 100, 100);
+            Rectangle inst2Rect = new Rectangle((EASY_COLUMN * EASY_TILE_SIZE) / 2, (EASY_ROWS * EASY_TILE_SIZE) / 2 - 50, 100, 100);
             spriteBatch.Draw(inst2, inst2Rect, Color.White);
         }
 
@@ -704,7 +1162,6 @@ namespace YangA_MP2
             Random randomLocation = new Random();
 
             gameTimer.ResetTimer(true);
-            //instTimer.ResetTimer(true);
 
             switch (gameDiff)
             {
@@ -726,7 +1183,6 @@ namespace YangA_MP2
                             Bombs.Add(bombLocation);
                         }
                     }
-
                     break;
                 case MEDIUM:
                     graphics.PreferredBackBufferWidth = MEDIUM_TILE_SIZE * MEDIUM_COLUMN;
@@ -734,6 +1190,8 @@ namespace YangA_MP2
                     graphics.ApplyChanges();
 
                     flagNum = MEDIUM_MINES;
+
+                    Tiles = new Tile[MEDIUM_ROWS, MEDIUM_COLUMN];
 
                     while (Bombs.Count < MEDIUM_MINES)
                     {
@@ -744,7 +1202,6 @@ namespace YangA_MP2
                             Bombs.Add(bombLocation);
                         }
                     }
-
                     break;
                 case HARD:
                     graphics.PreferredBackBufferWidth = HARD_TILE_SIZE * HARD_COLUMN;
@@ -752,6 +1209,8 @@ namespace YangA_MP2
                     graphics.ApplyChanges();
 
                     flagNum = HARD_MINES;
+
+                    Tiles = new Tile[HARD_ROWS, HARD_COLUMN];
 
                     while (Bombs.Count < HARD_MINES)
                     {
@@ -797,8 +1256,9 @@ namespace YangA_MP2
                     {
                         for (int j = 0; j < MEDIUM_COLUMN; j++)
                         {
-                            Tiles[i, j] = new Tile(j * MEDIUM_TILE_SIZE, i * MEDIUM_TILE_SIZE, i, j);
+                            Tiles[i, j] = new Tile(j * MEDIUM_TILE_SIZE, i * MEDIUM_TILE_SIZE + HUD_HEIGHT, i, j);
                             Tiles[i, j].BombCount(Bombs);
+                            Tiles[i, j].SetBombColor(-1);
                         }
                     }
                     for (int i = 0; i < MEDIUM_ROWS; i++)
@@ -814,8 +1274,9 @@ namespace YangA_MP2
                     {
                         for (int j = 0; j < HARD_COLUMN; j++)
                         {
-                            Tiles[i, j] = new Tile(j * HARD_TILE_SIZE, i * HARD_TILE_SIZE, i, j);
+                            Tiles[i, j] = new Tile(j * HARD_TILE_SIZE, i * HARD_TILE_SIZE + HUD_HEIGHT, i, j);
                             Tiles[i, j].BombCount(Bombs);
+                            Tiles[i, j].SetBombColor(-1);
                         }
                     }
                     for (int i = 0; i < HARD_ROWS; i++)
@@ -884,6 +1345,81 @@ namespace YangA_MP2
                         }
                     }
                 }
+            }
+        }
+
+        private static void WriteFile()
+        {
+            try
+            {
+                fileWriter = File.CreateText(resultFile);
+                fileWriter.WriteLine(Convert.ToString(highTime));
+                fileWriter.Write(Convert.ToString(gameDiff));
+            }
+            //Catch exceptions and errors
+            catch (FormatException fe)
+            {
+                //Catch exceptions and errors
+                Console.WriteLine(fe.Message);
+            }
+            catch (FileNotFoundException fnf)
+            {
+                //Catch exceptions and errors
+                Console.WriteLine(fnf.Message);
+            }
+            catch (Exception e)
+            {
+                //Catch exceptions and errors
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                //Close the file
+                if (fileWriter != null)
+                    fileWriter.Close();
+            }
+
+        }
+
+        private static void ReadFile(string fileName)
+        {
+            try
+            {
+                //Don't run this method if the file does not exist
+                if (File.Exists(fileName) == false)
+                    return;
+
+                //Open the file
+                fileReader = File.OpenText(fileName);
+
+                while (!fileReader.EndOfStream)
+                {
+                    highTime = Convert.ToInt32(fileReader.ReadLine());
+
+                    gameDiff = Convert.ToInt32(fileReader.ReadLine());
+                }
+            }
+            //Catch exceptions and errors
+            catch (FormatException fe)
+            {
+                //Display error message
+                Console.WriteLine(fe.Message);
+            }
+            catch (FileNotFoundException fnf)
+            {
+                //Display error message
+                Console.WriteLine(fnf.Message);
+            }
+            catch (Exception e)
+            {
+                //Display error message
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                //Close the file
+                if (fileReader != null)
+                    fileReader.Close();
             }
         }
 

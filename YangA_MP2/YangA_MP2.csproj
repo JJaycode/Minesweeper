@@ -91,6 +91,9 @@
     <Content Include="Content\Images\Backgrounds\board_easy.png" />
     <Content Include="Icon.bmp" />
     <Content Include="Icon.ico" />
+    <Content Include="results.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Visible="False" Include="$(ProjectDir)Content\bin\DesktopGL\**\*" CopyToOutputDirectory="PreserveNewest" Link="Content\%(RecursiveDir)%(Filename)%(Extension)" />
