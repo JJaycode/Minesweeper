@@ -47,6 +47,7 @@ namespace YangA_MP2
         public const int MEDIUM_TILE_SIZE = 30;
         public const int HARD_TILE_SIZE = 25;
 
+        private const int HUD_HEIGHT = 60;
         private const int HUD_SPRITE_HEIGHT = 35;
         private const int DIFF_BUTTON_LENGTH = 70;
         private const int DIFF_BUTTON_LOC = 10;
@@ -77,6 +78,8 @@ namespace YangA_MP2
         private int flagNum;
 
         private Random rnd = new Random();
+
+        private bool isMuted = false;
 
         Texture2D easyBoard;
         Rectangle easyBoardRect;
@@ -174,7 +177,7 @@ namespace YangA_MP2
 
         Timer gameTimer = new Timer(Timer.INFINITE_TIMER, true);
 
-        Timer instTimer = new Timer(INST_TIME, true);
+        Timer instTimer;
 
         public Game1()
         {
@@ -206,7 +209,7 @@ namespace YangA_MP2
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             easyBoard = Content.Load<Texture2D>("Images/Backgrounds/board_easy");
-            easyBoardRect = new Rectangle(0, 60, easyBoard.Width, easyBoard.Height);
+            easyBoardRect = new Rectangle(0, HUD_HEIGHT, easyBoard.Width, easyBoard.Height);
             clock = Content.Load<Texture2D>("Images/Sprites/Watch");
             clockRect = new Rectangle(220, 12, 30, HUD_SPRITE_HEIGHT);
             flag = Content.Load<Texture2D>("Images/Sprites/flag");
@@ -266,6 +269,8 @@ namespace YangA_MP2
 
             gameWin = Content.Load<Texture2D>("Images/Sprites/GameOver_WinResults");
             gameWinRetry = Content.Load<Texture2D>("Images/Sprites/GameOver_PlayAgain");
+
+            instTimer = new Timer(Timer.INFINITE_TIMER, true);
         }
 
         /// <summary>
@@ -298,12 +303,14 @@ namespace YangA_MP2
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
 
-
             Point mousePosition = new Point(currentMouseState.X, currentMouseState.Y);
 
             switch (gameState)
             {
                 case INSTRUCTIONS:
+
+                    instTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
+
                     if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released || currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
                         gameState = GAMEPLAY;
@@ -313,110 +320,78 @@ namespace YangA_MP2
 
                     gameTimer.Update(gameTime.ElapsedGameTime.TotalMilliseconds);
 
-                    int bombFlagged = 0;
 
                     if (gameTimer.GetTimePassed() > MAX_TIME)
                     {
                         gameState = LOSE;
                     }
 
-                    //check how many flags are on bomb
-                    for (int k = 0; k < Bombs.Count; k++)
+                    switch (gameDiff)
                     {
-                        for (int l = 0; l < EASY_ROWS; l++)
-                        {
-                            for (int p = 0; p < EASY_COLUMN; p++)
+                        case EASY:
+                            if (CheckWin(EASY_ROWS, EASY_COLUMN, EASY_MINES) == true)
                             {
-                                if (Bombs[k] == Tiles[l, p].GetColumn() + EASY_COLUMN * Tiles[l, p].GetRow() && Tiles[l, p].GetState() == FLAG)
-                                {
-                                    bombFlagged++;
-                                }
+                                gameState = WIN;
                             }
-                        }
-                    }
 
-                    //if all bombs are flagged, they win
-                    if (bombFlagged == 10)
-                    {
-                        gameState = WIN;
-                    }
+                            if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
+                            {
+                                SetFlag(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
+                            }
 
-                    if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
-                    {
-                        switch (gameDiff)
-                        {
-                            case EASY:
-
-                                for (int i = 0; i < EASY_ROWS; i++)
+                            if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                            {
+                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
                                 {
-                                    for (int j = 0; j < EASY_COLUMN; j++)
-                                    {
-                                        // if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + EASY_TILE_SIZE && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + EASY_TILE_SIZE && Tiles[i, j].GetState() == HIDDEN)
-                                        if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + EASY_TILE_SIZE && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + EASY_TILE_SIZE)
-                                        {
-                                            if (Tiles[i, j].GetState() != FLAG && Tiles[i, j].GetState() == HIDDEN)
-                                            {
-                                                Tiles[i, j].SetState(FLAG);
-                                                flagNum--;
-                                            }
-                                            else if (Tiles[i, j].GetState() == FLAG)
-                                            {
-                                                Tiles[i, j].SetState(HIDDEN);
-                                                flagNum++;
-                                            }
-                                        }
-                                    }
+                                    gameState = SWITCH;
                                 }
-                                break;
-                            case MEDIUM:
-                                spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
-                                spriteBatch.Draw(hud, hudRect, Color.White);
-                                break;
-                            case HARD:
-                                spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
-                                spriteBatch.Draw(hud, hudRect, Color.White);
-                                break;
-                        }
-                    }
 
-                    if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
-                    {
-                        if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
-                        {
-                            gameState = SWITCH;
-                        }
+                                RevealTiles(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
+                            }
+                            break;
+                        case MEDIUM:
+                            if (CheckWin(MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_MINES) == true)
+                            {
+                                gameState = WIN;
+                            }
 
-                        switch (gameDiff)
-                        {
-                            case EASY:
+                            if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
+                            {
+                                SetFlag(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
+                            }
 
-                                for (int i = 0; i < EASY_ROWS; i++)
+                            if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                            {
+                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
                                 {
-                                    for (int j = 0; j < EASY_COLUMN; j++)
-                                    {
-                                        if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + EASY_TILE_SIZE && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + EASY_TILE_SIZE)
-                                        {
-                                            Tiles[i, j].RevealTiles();
-
-                                            if (Tiles[i, j].IsBomb(Bombs) == true)
-                                            {
-                                                gameState = LOSE;
-                                            }
-                                            break;
-                                        }
-                                    }
+                                    gameState = SWITCH;
                                 }
+
+                                RevealTiles(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
+                            }
+                            break;
+                        case HARD:
+                            if (CheckWin(HARD_ROWS, HARD_COLUMN, HARD_MINES) == true)
+                            {
+                                gameState = WIN;
+                            }
+
+                            if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
+                            {
+                                SetFlag(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
+                            }
+
+                            if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                            {
+                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
+                                {
+                                    gameState = SWITCH;
+                                }
+
+                                RevealTiles(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
+                            }
                                 break;
-                            case MEDIUM:
-                                spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
-                                spriteBatch.Draw(hud, hudRect, Color.White);
-                                break;
-                            case HARD:
-                                spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
-                                spriteBatch.Draw(hud, hudRect, Color.White);
-                                break;
-                        }
-                    }
+                    }    
                     break;
                 case SWITCH:
                     if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
@@ -424,7 +399,7 @@ namespace YangA_MP2
                         switch (gameState)
                         {
                             case EASY:
-                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT/3 + DROPDOWN_HEIGHT / 3)
+                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3)
                                 {
                                     gameDiff = MEDIUM;
                                     ResetGame();
@@ -438,7 +413,7 @@ namespace YangA_MP2
                                 {
                                     gameDiff = EASY;
                                 }
-                                    break;
+                                break;
                             case MEDIUM:
                                 break;
                             case HARD:
@@ -448,8 +423,24 @@ namespace YangA_MP2
                     }
                     break;
                 case LOSE:
+                    if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
+                        {
+                            gameState = GAMEPLAY;
+                            ResetGame();
+                        }
+                    }
                     break;
                 case WIN:
+                    if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
+                        {
+                            gameState = GAMEPLAY;
+                            ResetGame();
+                        }
+                    }
                     break;
             }
 
@@ -500,7 +491,7 @@ namespace YangA_MP2
 
                     if (gameDiff == EASY)
                     {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT/3 - 9, 5, 5);
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 9, 5, 5);
                         spriteBatch.Draw(check, checkRect, Color.White);
                     }
                     else if (gameDiff == MEDIUM)
@@ -531,21 +522,21 @@ namespace YangA_MP2
                     Rectangle easyButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
                     spriteBatch.Draw(easyButton, easyButtonRect, Color.White);
 
+                    Vector2 flagLoc = new Vector2(180, 20);
+                    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLoc, Color.White);
+
                     if (gameTimer.IsActive())
                     {
-                        Vector2 timerLoc = new Vector2(260, 20);
+                        double timePassed = gameTimer.GetTimePassed();
+                        int secPassed = 0;
 
-                        double passedTime = gameTimer.GetTimePassed();
-                        int passedSec = 0;
-
-                        if (passedTime > 1000.0)
+                        if (timePassed > 1000)
                         {
-                            passedSec = (int)(passedTime / 1000.0);
-                            //time -= (double)(num3 * 1000);
+                            secPassed = Convert.ToInt32(timePassed / 1000);
                         }
 
-                        //spriteBatch.DrawString(gameFont, gameTimer.GetTimePassedAsString(Timer.FORMAT_MIN_SEC_MIL), timerLoc, Color.White);
-                        spriteBatch.DrawString(gameFont, passedSec.ToString("000"), timerLoc, Color.White);
+                        Vector2 timerLoc = new Vector2(260, 20);
+                        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
                     }
 
                     for (int i = 0; i < EASY_ROWS; i++)
@@ -688,34 +679,20 @@ namespace YangA_MP2
 
         private void DrawWin()
         {
-
+            Rectangle gameWinRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, 100, gameLose.Width, gameLose.Height);
+            spriteBatch.Draw(gameWin, gameWinRec, Color.White); ;
+            Rectangle gameWinRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, 100 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+            spriteBatch.Draw(gameWinRetry, gameWinRetryRec, Color.White);
         }
+
 
         private void DrawInstruction()
         {
-            //instTimer.Update(instTimer.GetTimePassed());
+            Rectangle inst1Rect = new Rectangle(100, 100, 100, 100);
+            spriteBatch.Draw(inst1, inst1Rect, Color.White);
 
-            //bool inst1Displayed = false;
-
-            //if (instTimer.GetTimePassed() == INST_TIME)
-            //{
-            //    if (inst1Displayed == false)
-            //    {
-                    Rectangle inst1Rect = new Rectangle(100, 100, 100, 100);
-                    spriteBatch.Draw(inst1, inst1Rect, Color.White);
-
-                    //inst1Displayed = true;
-                    //instTimer.ResetTimer(true);
-                //}
-                //else
-                //{
-                    Rectangle inst2Rect = new Rectangle(100, 100, 100, 100);
-                    spriteBatch.Draw(inst2, inst2Rect, Color.White);
-
-                    //inst1Displayed = false;
-                    //instTimer.ResetTimer(true);
-            //    }
-            //}
+            Rectangle inst2Rect = new Rectangle(100, 100, 100, 100);
+            spriteBatch.Draw(inst2, inst2Rect, Color.White);
         }
 
         private void ResetGame()
@@ -727,12 +704,13 @@ namespace YangA_MP2
             Random randomLocation = new Random();
 
             gameTimer.ResetTimer(true);
+            //instTimer.ResetTimer(true);
 
             switch (gameDiff)
             {
                 case EASY:
-                    graphics.PreferredBackBufferWidth = 450;
-                    graphics.PreferredBackBufferHeight = 420;
+                    graphics.PreferredBackBufferWidth = EASY_TILE_SIZE * EASY_COLUMN;
+                    graphics.PreferredBackBufferHeight = EASY_TILE_SIZE * EASY_ROWS + HUD_HEIGHT;
                     graphics.ApplyChanges();
 
                     flagNum = EASY_MINES;
@@ -751,8 +729,8 @@ namespace YangA_MP2
 
                     break;
                 case MEDIUM:
-                    graphics.PreferredBackBufferWidth = 450;
-                    graphics.PreferredBackBufferHeight = 420;
+                    graphics.PreferredBackBufferWidth = MEDIUM_TILE_SIZE * MEDIUM_COLUMN;
+                    graphics.PreferredBackBufferHeight = MEDIUM_TILE_SIZE * MEDIUM_ROWS + HUD_HEIGHT;
                     graphics.ApplyChanges();
 
                     flagNum = MEDIUM_MINES;
@@ -769,8 +747,8 @@ namespace YangA_MP2
 
                     break;
                 case HARD:
-                    graphics.PreferredBackBufferWidth = 450;
-                    graphics.PreferredBackBufferHeight = 420;
+                    graphics.PreferredBackBufferWidth = HARD_TILE_SIZE * HARD_COLUMN;
+                    graphics.PreferredBackBufferHeight = HARD_TILE_SIZE * HARD_ROWS + HUD_HEIGHT;
                     graphics.ApplyChanges();
 
                     flagNum = HARD_MINES;
@@ -801,7 +779,7 @@ namespace YangA_MP2
                     {
                         for (int j = 0; j < EASY_COLUMN; j++)
                         {
-                            Tiles[i, j] = new Tile(j * EASY_TILE_SIZE, i * EASY_TILE_SIZE + 60, i, j);
+                            Tiles[i, j] = new Tile(j * EASY_TILE_SIZE, i * EASY_TILE_SIZE + HUD_HEIGHT, i, j);
                             Tiles[i, j].BombCount(Bombs);
                             Tiles[i, j].SetBombColor(-1);
                         }
@@ -848,6 +826,92 @@ namespace YangA_MP2
                         }
                     }
                     break;
+            }
+        }
+
+        private void ShowAllBomb(int row, int column)
+        {
+            for (int k = 0; k < row; k++)
+            {
+                for (int l = 0; l < column; l++)
+                {
+                    if (Tiles[k, l].IsBomb(Bombs) == true)
+                    {
+                        Tiles[k, l].SetState(BOMB);
+                    }
+                }
+            }
+        }
+
+        private void RevealTiles(Point mousePosition, int row, int column, int tileSize)
+        {
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < column; j++)
+                {
+                    if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
+                    {
+                        Tiles[i, j].RevealTiles();
+
+                        if (Tiles[i, j].IsBomb(Bombs) == true)
+                        {
+                            ShowAllBomb(row, column);
+
+                            gameState = LOSE;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SetFlag(Point mousePosition, int row, int column, int tileSize)
+        {
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < column; j++)
+                {
+                    if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
+                    {
+                        if (Tiles[i, j].GetState() != FLAG && Tiles[i, j].GetState() == HIDDEN)
+                        {
+                            Tiles[i, j].SetState(FLAG);
+                            flagNum--;
+                        }
+                        else if (Tiles[i, j].GetState() == FLAG)
+                        {
+                            Tiles[i, j].SetState(HIDDEN);
+                            flagNum++;
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool CheckWin(int row, int column, int bombCount)
+        {
+            int count = 0;
+
+            for (int k = 0; k < row; k++)
+            {
+                for (int l = 0; l < column; l++)
+                {
+                    if (Tiles[k, l].IsBomb(Bombs) == false)
+                    {
+                        if (Tiles[k, l].GetState() == REVEALED)
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+
+            if (count == row * column - bombCount)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
