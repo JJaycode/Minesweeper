@@ -98,9 +98,9 @@ namespace YangA_MP2
         Texture2D mine8;
         Rectangle mine8Rect;
 
-        Texture2D easyButton;
-        Texture2D mediumButton;
-        Texture2D hardButton;
+        //Texture2D easyButton;
+        //Texture2D mediumButton;
+        //Texture2D hardButton;
 
         Texture2D dropDown;
         Texture2D check;
@@ -247,15 +247,15 @@ namespace YangA_MP2
 
             gameFont = Content.Load<SpriteFont>("Fonts/SpriteFont");
 
-            easyButton = Content.Load<Texture2D>("Images/Sprites/EasyButton");
-            mediumButton = Content.Load<Texture2D>("Images/Sprites/MedButton");
-            hardButton = Content.Load<Texture2D>("Images/Sprites/hardButton");
+            //easyButton = Content.Load<Texture2D>("Images/Sprites/EasyButton");
+            //mediumButton = Content.Load<Texture2D>("Images/Sprites/MedButton");
+            //hardButton = Content.Load<Texture2D>("Images/Sprites/hardButton");
 
-            dropDown = Content.Load<Texture2D>("Images/Sprites/DropDown");
-            check = Content.Load<Texture2D>("Images/Sprites/Check");
+            //dropDown = Content.Load<Texture2D>("Images/Sprites/DropDown");
+            //check = Content.Load<Texture2D>("Images/Sprites/Check");
 
-            inst1 = Content.Load<Texture2D>("Images/Sprites/Instructions1");
-            inst2 = Content.Load<Texture2D>("Images/Sprites/Instructions2");
+            //inst1 = Content.Load<Texture2D>("Images/Sprites/Instructions1");
+            //inst2 = Content.Load<Texture2D>("Images/Sprites/Instructions2");
 
             gameLose = Content.Load<Texture2D>("Images/Sprites/GameOver_Results");
             gameLoseNoScore = Content.Load<Texture2D>("Images/Sprites/GameOver_NoTime");
@@ -457,7 +457,7 @@ namespace YangA_MP2
             return gameState; 
         }
 
-        internal void DrawBoard(SpriteBatch spriteBatch, Timer gameTimer)
+        internal void DrawBoard(SpriteBatch spriteBatch, Timer gameTimer, Texture2D menuItem)
         {
             offRect = new Rectangle(this.Col * this.TileSize - 85, 12, 30, Game1.HUD_SPRITE_HEIGHT);
             onRect = new Rectangle(this.Col * this.TileSize - 85, 12, 30, Game1.HUD_SPRITE_HEIGHT);
@@ -472,8 +472,8 @@ namespace YangA_MP2
             spriteBatch.Draw(soundOn, onRect, Color.White);
             spriteBatch.Draw(soundOff, offRect, Color.White);
 
-            Rectangle easyButtonRect = new Rectangle(Game1.DIFF_BUTTON_LOC, Game1.DIFF_BUTTON_LOC, Game1.DIFF_BUTTON_LENGTH, Game1.HUD_SPRITE_HEIGHT);
-            spriteBatch.Draw(easyButton, easyButtonRect, Color.White);
+            Rectangle menuRect = new Rectangle(Game1.DIFF_BUTTON_LOC, Game1.DIFF_BUTTON_LOC, Game1.DIFF_BUTTON_LENGTH, Game1.HUD_SPRITE_HEIGHT);
+            spriteBatch.Draw(menuItem, menuRect, Color.White);
 
             Vector2 flagLoc = new Vector2(180, 20);
             spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLoc, Color.White);

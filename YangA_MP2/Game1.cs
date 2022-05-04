@@ -165,15 +165,15 @@ namespace YangA_MP2
         //Texture2D mine8;
         //Rectangle mine8Rect;
 
-        //Texture2D easyButton;
-        //Texture2D mediumButton;
-        //Texture2D hardButton;
+        Texture2D easyButton;
+        Texture2D mediumButton;
+        Texture2D hardButton;
 
-        //Texture2D dropDown;
-        //Texture2D check;
+        Texture2D dropDown;
+        Texture2D check;
 
-        //Texture2D inst1;
-        //Texture2D inst2;
+        Texture2D inst1;
+        Texture2D inst2;
 
         //Texture2D gameLose;
         //Texture2D gameLoseRetry;
@@ -267,15 +267,15 @@ namespace YangA_MP2
 
             //gameFont = Content.Load<SpriteFont>("Fonts/SpriteFont");
 
-            //easyButton = Content.Load<Texture2D>("Images/Sprites/EasyButton");
-            //mediumButton = Content.Load<Texture2D>("Images/Sprites/MedButton");
-            //hardButton = Content.Load<Texture2D>("Images/Sprites/hardButton");
+            easyButton = Content.Load<Texture2D>("Images/Sprites/EasyButton");
+            mediumButton = Content.Load<Texture2D>("Images/Sprites/MedButton");
+            hardButton = Content.Load<Texture2D>("Images/Sprites/hardButton");
 
-            //dropDown = Content.Load<Texture2D>("Images/Sprites/DropDown");
-            //check = Content.Load<Texture2D>("Images/Sprites/Check");
+            dropDown = Content.Load<Texture2D>("Images/Sprites/DropDown");
+            check = Content.Load<Texture2D>("Images/Sprites/Check");
 
-            //inst1 = Content.Load<Texture2D>("Images/Sprites/Instructions1");
-            //inst2 = Content.Load<Texture2D>("Images/Sprites/Instructions2");
+            inst1 = Content.Load<Texture2D>("Images/Sprites/Instructions1");
+            inst2 = Content.Load<Texture2D>("Images/Sprites/Instructions2");
 
             //gameLose = Content.Load<Texture2D>("Images/Sprites/GameOver_Results");
             //gameLoseNoScore = Content.Load<Texture2D>("Images/Sprites/GameOver_NoTime");
@@ -352,7 +352,7 @@ namespace YangA_MP2
                     {
                         case EASY:
 
-                            this.boardEasy.Update(mousePosition, currentMouseState, lastMouseState);  
+                            gameState = this.boardEasy.Update(mousePosition, currentMouseState, lastMouseState);  
 
                             //if (CheckWin(EASY_ROWS, EASY_COLUMN, EASY_MINES) == true)
                             //{
@@ -378,7 +378,7 @@ namespace YangA_MP2
                             break;
                         case MEDIUM:
 
-                            this.boardMid.Update(mousePosition, currentMouseState, lastMouseState);
+                            gameState = this.boardMid.Update(mousePosition, currentMouseState, lastMouseState);
 
                             //if (CheckWin(MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_MINES) == true)
                             //{
@@ -403,7 +403,7 @@ namespace YangA_MP2
                             //}
                             break;
                         case HARD:
-                            this.boardHard.Update(mousePosition, currentMouseState, lastMouseState);
+                            gameState = this.boardHard.Update(mousePosition, currentMouseState, lastMouseState);
 
                             //if (CheckWin(HARD_ROWS, HARD_COLUMN, HARD_MINES) == true)
                             //{
@@ -569,24 +569,24 @@ namespace YangA_MP2
                 case SWITCH:
                     spriteBatch.Begin();
                     DrawBoard();
-                    //Rectangle dropDownRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT, DIFF_BUTTON_LENGTH, DROPDOWN_HEIGHT);
-                    //spriteBatch.Draw(dropDown, dropDownRect, Color.White);
+                    Rectangle dropDownRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT, DIFF_BUTTON_LENGTH, DROPDOWN_HEIGHT);
+                    spriteBatch.Draw(dropDown, dropDownRect, Color.White);
 
-                    //if (gameDiff == EASY)
-                    //{
-                    //    Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 7, 5, 5);
-                    //    spriteBatch.Draw(check, checkRect, Color.White);
-                    //}
-                    //else if (gameDiff == MEDIUM)
-                    //{
-                    //    Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + 4, 5, 5);
-                    //    spriteBatch.Draw(check, checkRect, Color.White);
-                    //}
-                    //else if (gameDiff == HARD)
-                    //{
-                    //    Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3, 5, 5);
-                    //    spriteBatch.Draw(check, checkRect, Color.White);
-                    //}
+                    if (gameDiff == EASY)
+                    {
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 7, 5, 5);
+                        spriteBatch.Draw(check, checkRect, Color.White);
+                    }
+                    else if (gameDiff == MEDIUM)
+                    {
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + 4, 5, 5);
+                        spriteBatch.Draw(check, checkRect, Color.White);
+                    }
+                    else if (gameDiff == HARD)
+                    {
+                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3, 5, 5);
+                        spriteBatch.Draw(check, checkRect, Color.White);
+                    }
                     spriteBatch.End();
                     break;
             }
@@ -599,448 +599,13 @@ namespace YangA_MP2
             switch (gameDiff)
             {
                 case EASY:
-
-                    this.boardEasy.DrawBoard(this.spriteBatch, this.gameTimer);
-
-                    //offRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    //onRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    //clockRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
-                    //flagRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
-                    //hudRect = new Rectangle(0, 0, easyBoard.Width, hud.Height);
-
-                    //spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
-                    //spriteBatch.Draw(hud, hudRect, Color.White);
-                    //spriteBatch.Draw(clock, clockRect, Color.White);
-                    //spriteBatch.Draw(flag, flagRect, Color.White);
-                    //spriteBatch.Draw(soundOn, onRect, Color.White);
-                    //spriteBatch.Draw(soundOff, offRect, Color.White);
-
-                    //Rectangle easyButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
-                    //spriteBatch.Draw(easyButton, easyButtonRect, Color.White);
-
-                    //Vector2 flagLoc = new Vector2(180, 20);
-                    //spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLoc, Color.White);
-
-                    //if (gameTimer.IsActive())
-                    //{
-                    //    double timePassed = gameTimer.GetTimePassed();
-                    //    int secPassed = 0;
-
-                    //    if (timePassed > 1000)
-                    //    {
-                    //        secPassed = Convert.ToInt32(timePassed / 1000);
-                    //    }
-
-                    //    Vector2 timerLoc = new Vector2(260, 20);
-                    //    spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
-                    //}
-
-                    //for (int i = 0; i < EASY_ROWS; i++)
-                    //{
-                    //    for (int j = 0; j < EASY_COLUMN; j++)
-                    //    {
-                    //        if (Tiles[i, j].GetState() == FLAG)
-                    //        {
-                    //            Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //            spriteBatch.Draw(flag, flagTileRect, Color.White);
-                    //        }
-
-                    //        if (Tiles[i, j].GetState() == REVEALED)
-                    //        {
-                    //            //Different places are different sprites on board
-                    //            if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
-                    //            {
-                    //                Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                spriteBatch.Draw(clearLight, clearLightRect, Color.White);
-                    //            }
-                    //            else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
-                    //            {
-                    //                Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
-                    //            }
-
-                    //            switch (Tiles[i, j].BombCount(Bombs))
-                    //            {
-                    //                case 1:
-                    //                    Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(one, oneRect, Color.White);
-                    //                    break;
-                    //                case 2:
-                    //                    Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(two, twoRect, Color.White);
-                    //                    break;
-                    //                case 3:
-                    //                    Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(three, threeRect, Color.White);
-                    //                    break;
-                    //                case 4:
-                    //                    Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(four, fourRect, Color.White);
-                    //                    break;
-                    //                case 5:
-                    //                    Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(five, fiveRect, Color.White);
-                    //                    break;
-                    //                case 6:
-                    //                    Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(six, sixRect, Color.White);
-                    //                    break;
-                    //                case 7:
-                    //                    Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(seven, sevenRect, Color.White);
-                    //                    break;
-                    //                case 8:
-                    //                    Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(eight, eightRect, Color.White);
-                    //                    break;
-                    //                default:
-                    //                    break;
-                    //            }
-                    //        }
-
-                    //        if (Tiles[i, j].GetBombColor() == -1)
-                    //        {
-                    //            int num = rnd.Next(1, 9);
-
-                    //            Tiles[i, j].SetBombColor(num);
-                    //        }
-
-                    //        if (Tiles[i, j].GetState() == BOMB)
-                    //        {
-                    //            switch (Tiles[i, j].GetBombColor())
-                    //            {
-                    //                case 1:
-                    //                    Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine1, mine1Rec, Color.White);
-                    //                    break;
-                    //                case 2:
-                    //                    Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine2, mine2Rec, Color.White);
-                    //                    break;
-                    //                case 3:
-                    //                    Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine3, mine3Rec, Color.White);
-                    //                    break;
-                    //                case 4:
-                    //                    Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine4, mine4Rec, Color.White);
-                    //                    break;
-                    //                case 5:
-                    //                    Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine5, mine5Rec, Color.White);
-                    //                    break;
-                    //                case 6:
-                    //                    Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine6, mine6Rec, Color.White);
-                    //                    break;
-                    //                case 7:
-                    //                    Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine7, mine7Rec, Color.White);
-                    //                    break;
-                    //                case 8:
-                    //                    Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                    //                    spriteBatch.Draw(mine8, mine8Rec, Color.White);
-                    //                    break;
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    this.boardEasy.DrawBoard(this.spriteBatch, this.gameTimer, this.easyButton);
                     break;
                 case MEDIUM:
-
-                    this.boardMid.DrawBoard(this.spriteBatch, this.gameTimer);
-
-                //offRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                //onRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                //clockRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
-                //flagRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
-                //hudRect = new Rectangle(0, 0, medBoard.Width, hud.Height);
-
-                //spriteBatch.Draw(medBoard, medBoardRect, Color.White);
-                //spriteBatch.Draw(hud, hudRect, Color.White);
-                //spriteBatch.Draw(clock, clockRect, Color.White);
-                //spriteBatch.Draw(flag, flagRect, Color.White);
-                //spriteBatch.Draw(soundOn, onRect, Color.White);
-                //spriteBatch.Draw(soundOff, offRect, Color.White);
-
-                //Rectangle medButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
-                //spriteBatch.Draw(mediumButton, medButtonRect, Color.White);
-
-                //Vector2 flagLocMed = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 265, 20);
-                //spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocMed, Color.White);
-
-                //if (gameTimer.IsActive())
-                //{
-                //    double timePassed = gameTimer.GetTimePassed();
-                //    int secPassed = 0;
-
-                //    if (timePassed > 1000)
-                //    {
-                //        secPassed = Convert.ToInt32(timePassed / 1000);
-                //    }
-
-                //    Vector2 timerLoc = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 190, 20);
-                //    spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
-                //}
-
-                //for (int i = 0; i < MEDIUM_ROWS; i++)
-                //{
-                //    for (int j = 0; j < MEDIUM_COLUMN; j++)
-                //    {
-                //        if (Tiles[i, j].GetState() == FLAG)
-                //        {
-                //            Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //            spriteBatch.Draw(flag, flagTileRect, Color.White);
-                //        }
-
-                //        if (Tiles[i, j].GetState() == REVEALED)
-                //        {
-                //            //Different places are different sprites on board
-                //            if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
-                //            {
-                //                Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                spriteBatch.Draw(clearLight, clearLightRect, Color.White);
-                //            }
-                //            else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
-                //            {
-                //                Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
-                //            }
-
-                //            switch (Tiles[i, j].BombCount(Bombs))
-                //            {
-                //                case 1:
-                //                    Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(one, oneRect, Color.White);
-                //                    break;
-                //                case 2:
-                //                    Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(two, twoRect, Color.White);
-                //                    break;
-                //                case 3:
-                //                    Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(three, threeRect, Color.White);
-                //                    break;
-                //                case 4:
-                //                    Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(four, fourRect, Color.White);
-                //                    break;
-                //                case 5:
-                //                    Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(five, fiveRect, Color.White);
-                //                    break;
-                //                case 6:
-                //                    Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(six, sixRect, Color.White);
-                //                    break;
-                //                case 7:
-                //                    Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(seven, sevenRect, Color.White);
-                //                    break;
-                //                case 8:
-                //                    Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(eight, eightRect, Color.White);
-                //                    break;
-                //                default:
-                //                    break;
-                //            }
-                //        }
-
-                //        if (Tiles[i, j].GetBombColor() == -1)
-                //        {
-                //            int num = rnd.Next(1, 9);
-
-                //            Tiles[i, j].SetBombColor(num);
-                //        }
-
-                //        if (Tiles[i, j].GetState() == BOMB)
-                //        {
-                //            switch (Tiles[i, j].GetBombColor())
-                //            {
-                //                case 1:
-                //                    Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine1, mine1Rec, Color.White);
-                //                    break;
-                //                case 2:
-                //                    Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine2, mine2Rec, Color.White);
-                //                    break;
-                //                case 3:
-                //                    Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine3, mine3Rec, Color.White);
-                //                    break;
-                //                case 4:
-                //                    Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine4, mine4Rec, Color.White);
-                //                    break;
-                //                case 5:
-                //                    Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine5, mine5Rec, Color.White);
-                //                    break;
-                //                case 6:
-                //                    Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine6, mine6Rec, Color.White);
-                //                    break;
-                //                case 7:
-                //                    Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine7, mine7Rec, Color.White);
-                //                    break;
-                //                case 8:
-                //                    Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                //                    spriteBatch.Draw(mine8, mine8Rec, Color.White);
-                //                    break;
-                //            }
-                //        }
-                //    }
-                //}
+                    this.boardMid.DrawBoard(this.spriteBatch, this.gameTimer, this.mediumButton);
                 break;
                 case HARD:
-
-                    this.boardHard.DrawBoard(this.spriteBatch, this.gameTimer);  
-
-                //    offRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                //    onRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                //    clockRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
-                //    flagRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
-                //    hudRect = new Rectangle(0, 0, hardBoard.Width, hud.Height);
-
-                //    spriteBatch.Draw(hardBoard, hardBoardRect, Color.White);
-                //    spriteBatch.Draw(hud, hudRect, Color.White);
-                //    spriteBatch.Draw(clock, clockRect, Color.White);
-                //    spriteBatch.Draw(flag, flagRect, Color.White);
-                //    spriteBatch.Draw(soundOn, onRect, Color.White);
-                //    spriteBatch.Draw(soundOff, offRect, Color.White);
-
-                //    Rectangle hardButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
-                //    spriteBatch.Draw(hardButton, hardButtonRect, Color.White);
-
-                //    Vector2 flagLocHard = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 270, 20);
-                //    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocHard, Color.White);
-
-                //    if (gameTimer.IsActive())
-                //    {
-                //        double timePassed = gameTimer.GetTimePassed();
-                //        int secPassed = 0;
-
-                //        if (timePassed > 1000)
-                //        {
-                //            secPassed = Convert.ToInt32(timePassed / 1000);
-                //        }
-
-                //        Vector2 timerLoc = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 190, 20);
-                //        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
-                //    }
-
-                //    for (int i = 0; i < HARD_ROWS; i++)
-                //    {
-                //        for (int j = 0; j < HARD_COLUMN; j++)
-                //        {
-                //            if (Tiles[i, j].GetState() == FLAG)
-                //            {
-                //                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                spriteBatch.Draw(flag, flagTileRect, Color.White);
-                //            }
-
-                //            if (Tiles[i, j].GetState() == REVEALED)
-                //            {
-                //                //Different places are different sprites on board
-                //                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
-                //                {
-                //                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
-                //                }
-                //                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
-                //                {
-                //                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
-                //                }
-
-                //                switch (Tiles[i, j].BombCount(Bombs))
-                //                {
-                //                    case 1:
-                //                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(one, oneRect, Color.White);
-                //                        break;
-                //                    case 2:
-                //                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(two, twoRect, Color.White);
-                //                        break;
-                //                    case 3:
-                //                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(three, threeRect, Color.White);
-                //                        break;
-                //                    case 4:
-                //                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(four, fourRect, Color.White);
-                //                        break;
-                //                    case 5:
-                //                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(five, fiveRect, Color.White);
-                //                        break;
-                //                    case 6:
-                //                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(six, sixRect, Color.White);
-                //                        break;
-                //                    case 7:
-                //                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(seven, sevenRect, Color.White);
-                //                        break;
-                //                    case 8:
-                //                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(eight, eightRect, Color.White);
-                //                        break;
-                //                    default:
-                //                        break;
-                //                }
-                //            }
-
-                //            if (Tiles[i, j].GetBombColor() == -1)
-                //            {
-                //                int num = rnd.Next(1, 9);
-
-                //                Tiles[i, j].SetBombColor(num);
-                //            }
-
-                //            if (Tiles[i, j].GetState() == BOMB)
-                //            {
-                //                switch (Tiles[i, j].GetBombColor())
-                //                {
-                //                    case 1:
-                //                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
-                //                        break;
-                //                    case 2:
-                //                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
-                //                        break;
-                //                    case 3:
-                //                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
-                //                        break;
-                //                    case 4:
-                //                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
-                //                        break;
-                //                    case 5:
-                //                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
-                //                        break;
-                //                    case 6:
-                //                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
-                //                        break;
-                //                    case 7:
-                //                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
-                //                        break;
-                //                    case 8:
-                //                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                //                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
-                //                        break;
-                //                }
-                //            }
-                //        }
-                //    }
+                    this.boardHard.DrawBoard(this.spriteBatch, this.gameTimer, this.hardButton);
                     break;
             }
         }
