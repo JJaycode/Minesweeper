@@ -50,11 +50,11 @@ namespace YangA_MP2
         public const int MEDIUM_TILE_SIZE = 30;
         public const int HARD_TILE_SIZE = 25;
 
-        private const int HUD_HEIGHT = 60;
-        private const int HUD_SPRITE_HEIGHT = 35;
-        private const int DIFF_BUTTON_LENGTH = 70;
-        private const int DIFF_BUTTON_LOC = 10;
-        private const int DROPDOWN_HEIGHT = 60;
+        public const int HUD_HEIGHT = 60;
+        public const int HUD_SPRITE_HEIGHT = 35;
+        public const int DIFF_BUTTON_LENGTH = 70;
+        public const int DIFF_BUTTON_LOC = 10;
+        public const int DROPDOWN_HEIGHT = 60;
 
         public const int HIDDEN = 0;
         public const int REVEALED = 1;
@@ -63,24 +63,22 @@ namespace YangA_MP2
 
         public static int gameState = INSTRUCTIONS;
         public static int gameDiff = EASY;
-        public static int gameboardRow = EASY_ROWS;
-        public static int gameboardColumn = EASY_COLUMN;
-        public static int gameMines = EASY_MINES;
-        public static int gameTileSize = EASY_TILE_SIZE;
+        //public static int gameboardRow = EASY_ROWS;
+        //public static int gameboardColumn = EASY_COLUMN;
+        //public static int gameMines = EASY_MINES;
+        //public static int gameTileSize = EASY_TILE_SIZE;
 
         public int MAX_TIME = 1000000;
 
         public static double INST_TIME = 3000;
 
-        public static List<int> Bombs = new List<int>();
-
-        public static Tile[,] Tiles;
+        //public static List<int> Bombs = new List<int>();
+        //public static Tile[,] Tiles;
+        //public int FlagNum;
 
         private bool isReset = true;
 
-        private int flagNum;
-
-        private Random rnd = new Random();
+        //private Random rnd = new Random();
 
         private bool isMuted = false;
 
@@ -89,111 +87,115 @@ namespace YangA_MP2
 
         public static string resultFile = "results.txt";
 
-        Texture2D easyBoard;
+        Texture2D easyBoard2D;
         Rectangle easyBoardRect;
 
-        Texture2D medBoard;
+        Texture2D medBoard2D;
         Rectangle medBoardRect;
 
-        Texture2D hardBoard;
+        Texture2D hardBoard2D;
         Rectangle hardBoardRect;
 
-        Texture2D clock;
-        Rectangle clockRect;
+        //Texture2D clock;
+        //Rectangle clockRect;
 
-        Texture2D flag;
-        Rectangle flagRect;
+        //Texture2D flag;
+        //Rectangle flagRect;
 
-        Texture2D hud;
-        Rectangle hudRect;
+        //Texture2D hud;
+        //Rectangle hudRect;
 
-        Texture2D soundOn;
-        Rectangle onRect;
+        //Texture2D soundOn;
+        //Rectangle onRect;
 
-        Texture2D soundOff;
-        Rectangle offRect;
+        //Texture2D soundOff;
+        //Rectangle offRect;
 
-        Texture2D clearLight;
-        Rectangle clearLightRect;
+        //Texture2D clearLight;
+        //Rectangle clearLightRect;
 
-        Texture2D clearDark;
-        Rectangle clearDarkRect;
+        //Texture2D clearDark;
+        //Rectangle clearDarkRect;
 
-        Texture2D one;
-        Rectangle oneRect;
+        //Texture2D one;
+        //Rectangle oneRect;
 
-        Texture2D two;
-        Rectangle twoRect;
+        //Texture2D two;
+        //Rectangle twoRect;
 
-        Texture2D three;
-        Rectangle threeRect;
+        //Texture2D three;
+        //Rectangle threeRect;
 
-        Texture2D four;
-        Rectangle fourRect;
+        //Texture2D four;
+        //Rectangle fourRect;
 
-        Texture2D five;
-        Rectangle fiveRect;
+        //Texture2D five;
+        //Rectangle fiveRect;
 
-        Texture2D six;
-        Rectangle sixRect;
+        //Texture2D six;
+        //Rectangle sixRect;
 
-        Texture2D seven;
-        Rectangle sevenRect;
+        //Texture2D seven;
+        //Rectangle sevenRect;
 
-        Texture2D eight;
-        Rectangle eightRect;
+        //Texture2D eight;
+        //Rectangle eightRect;
 
-        Texture2D mine1;
-        Rectangle mine1Rect;
+        //Texture2D mine1;
+        //Rectangle mine1Rect;
 
-        Texture2D mine2;
-        Rectangle mine2Rect;
+        //Texture2D mine2;
+        //Rectangle mine2Rect;
 
-        Texture2D mine3;
-        Rectangle mine3Rect;
+        //Texture2D mine3;
+        //Rectangle mine3Rect;
 
-        Texture2D mine4;
-        Rectangle mine4Rect;
+        //Texture2D mine4;
+        //Rectangle mine4Rect;
 
-        Texture2D mine5;
-        Rectangle mine5Rect;
+        //Texture2D mine5;
+        //Rectangle mine5Rect;
 
-        Texture2D mine6;
-        Rectangle mine6Rect;
+        //Texture2D mine6;
+        //Rectangle mine6Rect;
 
-        Texture2D mine7;
-        Rectangle mine7Rect;
+        //Texture2D mine7;
+        //Rectangle mine7Rect;
 
-        Texture2D mine8;
-        Rectangle mine8Rect;
+        //Texture2D mine8;
+        //Rectangle mine8Rect;
 
-        Texture2D easyButton;
-        Texture2D mediumButton;
-        Texture2D hardButton;
+        //Texture2D easyButton;
+        //Texture2D mediumButton;
+        //Texture2D hardButton;
 
-        Texture2D dropDown;
-        Texture2D check;
+        //Texture2D dropDown;
+        //Texture2D check;
 
-        Texture2D inst1;
-        Texture2D inst2;
+        //Texture2D inst1;
+        //Texture2D inst2;
 
-        Texture2D gameLose;
-        Texture2D gameLoseRetry;
-        Texture2D gameLoseNoScore;
+        //Texture2D gameLose;
+        //Texture2D gameLoseRetry;
+        //Texture2D gameLoseNoScore;
 
-        Texture2D gameWin;
-        Texture2D gameWinRetry;
+        //Texture2D gameWin;
+        //Texture2D gameWinRetry;
 
         MouseState currentMouseState;
         MouseState lastMouseState;
 
-        SpriteFont gameFont;
+        //SpriteFont gameFont;
 
         Timer gameTimer = new Timer(Timer.INFINITE_TIMER, true);
 
         Timer instTimer;
 
         SoundEffect soundEffect;
+
+        GBoard boardEasy;
+        GBoard boardMid;
+        GBoard boardHard;
 
         public Game1()
         {
@@ -210,7 +212,7 @@ namespace YangA_MP2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ResetGame();
+          //  ResetGame();
 
             ReadFile("results.txt");
 
@@ -226,61 +228,68 @@ namespace YangA_MP2
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            easyBoard = Content.Load<Texture2D>("Images/Backgrounds/board_easy");
-            easyBoardRect = new Rectangle(0, HUD_HEIGHT, easyBoard.Width, easyBoard.Height);
-            medBoard = Content.Load<Texture2D>("Images/Sprites/board_med");
-            medBoardRect = new Rectangle(0, HUD_HEIGHT, medBoard.Width, medBoard.Height);
-            hardBoard = Content.Load<Texture2D>("Images/Sprites/board_hard");
-            hardBoardRect = new Rectangle(0, HUD_HEIGHT, hardBoard.Width, hardBoard.Height);
+            easyBoard2D = Content.Load<Texture2D>("Images/Backgrounds/board_easy");
+            easyBoardRect = new Rectangle(0, HUD_HEIGHT, easyBoard2D.Width, easyBoard2D.Height);
+            medBoard2D = Content.Load<Texture2D>("Images/Sprites/board_med");
+            medBoardRect = new Rectangle(0, HUD_HEIGHT, medBoard2D.Width, medBoard2D.Height);
+            hardBoard2D = Content.Load<Texture2D>("Images/Sprites/board_hard");
+            hardBoardRect = new Rectangle(0, HUD_HEIGHT, hardBoard2D.Width, hardBoard2D.Height);
 
-            clock = Content.Load<Texture2D>("Images/Sprites/Watch");
-            flag = Content.Load<Texture2D>("Images/Sprites/flag");
-            hud = Content.Load<Texture2D>("Images/Sprites/HUDBar");
-            soundOn = Content.Load<Texture2D>("Images/Sprites/SoundOn");
-            soundOff = Content.Load<Texture2D>("Images/Sprites/SoundOff");
+            //clock = Content.Load<Texture2D>("Images/Sprites/Watch");
+            //flag = Content.Load<Texture2D>("Images/Sprites/flag");
+            //hud = Content.Load<Texture2D>("Images/Sprites/HUDBar");
+            //soundOn = Content.Load<Texture2D>("Images/Sprites/SoundOn");
+            //soundOff = Content.Load<Texture2D>("Images/Sprites/SoundOff");
 
-            soundEffects.
+            ////soundEffects.
 
-            one = Content.Load<Texture2D>("Images/Sprites/1");
-            two = Content.Load<Texture2D>("Images/Sprites/2");
-            three = Content.Load<Texture2D>("Images/Sprites/3");
-            four = Content.Load<Texture2D>("Images/Sprites/4");
-            five = Content.Load<Texture2D>("Images/Sprites/5");
-            six = Content.Load<Texture2D>("Images/Sprites/6");
-            seven = Content.Load<Texture2D>("Images/Sprites/7");
-            eight = Content.Load<Texture2D>("Images/Sprites/8");
+            //one = Content.Load<Texture2D>("Images/Sprites/1");
+            //two = Content.Load<Texture2D>("Images/Sprites/2");
+            //three = Content.Load<Texture2D>("Images/Sprites/3");
+            //four = Content.Load<Texture2D>("Images/Sprites/4");
+            //five = Content.Load<Texture2D>("Images/Sprites/5");
+            //six = Content.Load<Texture2D>("Images/Sprites/6");
+            //seven = Content.Load<Texture2D>("Images/Sprites/7");
+            //eight = Content.Load<Texture2D>("Images/Sprites/8");
 
-            clearDark = Content.Load<Texture2D>("Images/Sprites/Clear_Dark");
-            clearLight = Content.Load<Texture2D>("Images/Sprites/Clear_Light");
-            // TODO: use this.Content to load your game content here
+            //clearDark = Content.Load<Texture2D>("Images/Sprites/Clear_Dark");
+            //clearLight = Content.Load<Texture2D>("Images/Sprites/Clear_Light");
+            //// TODO: use this.Content to load your game content here
 
-            mine1 = Content.Load<Texture2D>("Images/Sprites/Mine1");
-            mine2 = Content.Load<Texture2D>("Images/Sprites/Mine2");
-            mine3 = Content.Load<Texture2D>("Images/Sprites/Mine3");
-            mine4 = Content.Load<Texture2D>("Images/Sprites/Mine4");
-            mine5 = Content.Load<Texture2D>("Images/Sprites/Mine5");
-            mine6 = Content.Load<Texture2D>("Images/Sprites/Mine6");
-            mine7 = Content.Load<Texture2D>("Images/Sprites/Mine7");
-            mine8 = Content.Load<Texture2D>("Images/Sprites/Mine8");
+            //mine1 = Content.Load<Texture2D>("Images/Sprites/Mine1");
+            //mine2 = Content.Load<Texture2D>("Images/Sprites/Mine2");
+            //mine3 = Content.Load<Texture2D>("Images/Sprites/Mine3");
+            //mine4 = Content.Load<Texture2D>("Images/Sprites/Mine4");
+            //mine5 = Content.Load<Texture2D>("Images/Sprites/Mine5");
+            //mine6 = Content.Load<Texture2D>("Images/Sprites/Mine6");
+            //mine7 = Content.Load<Texture2D>("Images/Sprites/Mine7");
+            //mine8 = Content.Load<Texture2D>("Images/Sprites/Mine8");
 
-            gameFont = Content.Load<SpriteFont>("Fonts/SpriteFont");
+            //gameFont = Content.Load<SpriteFont>("Fonts/SpriteFont");
 
-            easyButton = Content.Load<Texture2D>("Images/Sprites/EasyButton");
-            mediumButton = Content.Load<Texture2D>("Images/Sprites/MedButton");
-            hardButton = Content.Load<Texture2D>("Images/Sprites/hardButton");
+            //easyButton = Content.Load<Texture2D>("Images/Sprites/EasyButton");
+            //mediumButton = Content.Load<Texture2D>("Images/Sprites/MedButton");
+            //hardButton = Content.Load<Texture2D>("Images/Sprites/hardButton");
 
-            dropDown = Content.Load<Texture2D>("Images/Sprites/DropDown");
-            check = Content.Load<Texture2D>("Images/Sprites/Check");
+            //dropDown = Content.Load<Texture2D>("Images/Sprites/DropDown");
+            //check = Content.Load<Texture2D>("Images/Sprites/Check");
 
-            inst1 = Content.Load<Texture2D>("Images/Sprites/Instructions1");
-            inst2 = Content.Load<Texture2D>("Images/Sprites/Instructions2");
+            //inst1 = Content.Load<Texture2D>("Images/Sprites/Instructions1");
+            //inst2 = Content.Load<Texture2D>("Images/Sprites/Instructions2");
 
-            gameLose = Content.Load<Texture2D>("Images/Sprites/GameOver_Results");
-            gameLoseNoScore = Content.Load<Texture2D>("Images/Sprites/GameOver_NoTime");
-            gameLoseRetry = Content.Load<Texture2D>("Images/Sprites/GameOver_TryAgain");
+            //gameLose = Content.Load<Texture2D>("Images/Sprites/GameOver_Results");
+            //gameLoseNoScore = Content.Load<Texture2D>("Images/Sprites/GameOver_NoTime");
+            //gameLoseRetry = Content.Load<Texture2D>("Images/Sprites/GameOver_TryAgain");
 
-            gameWin = Content.Load<Texture2D>("Images/Sprites/GameOver_WinResults");
-            gameWinRetry = Content.Load<Texture2D>("Images/Sprites/GameOver_PlayAgain");
+            //gameWin = Content.Load<Texture2D>("Images/Sprites/GameOver_WinResults");
+            //gameWinRetry = Content.Load<Texture2D>("Images/Sprites/GameOver_PlayAgain");
+
+            this.boardEasy = new GBoard(EASY_ROWS, EASY_COLUMN, EASY_MINES, EASY_TILE_SIZE, easyBoard2D, easyBoardRect);
+            this.boardEasy.LoadContent(spriteBatch, Content); 
+            this.boardMid = new GBoard(MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_MINES, MEDIUM_TILE_SIZE, medBoard2D, medBoardRect);
+            this.boardMid.LoadContent(spriteBatch, Content);
+            this.boardHard = new GBoard(HARD_ROWS, HARD_COLUMN, HARD_MINES, HARD_TILE_SIZE, hardBoard2D, hardBoardRect);
+            this.boardHard.LoadContent(spriteBatch, Content);
 
             instTimer = new Timer(Timer.INFINITE_TIMER, true);
         }
@@ -342,73 +351,81 @@ namespace YangA_MP2
                     switch (gameDiff)
                     {
                         case EASY:
-                            if (CheckWin(EASY_ROWS, EASY_COLUMN, EASY_MINES) == true)
-                            {
-                                gameState = WIN;
-                            }
 
-                            if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
-                            {
-                                SetFlag(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
-                            }
+                            this.boardEasy.Update(mousePosition, currentMouseState, lastMouseState);  
 
-                            if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
-                            {
-                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
-                                {
-                                    gameState = SWITCH;
-                                }
-                                else
-                                {
-                                    RevealTiles(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
-                                }
-                            }
+                            //if (CheckWin(EASY_ROWS, EASY_COLUMN, EASY_MINES) == true)
+                            //{
+                            //    gameState = WIN;
+                            //}
+
+                            //if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
+                            //{
+                            //    SetFlag(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
+                            //}
+
+                            //if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                            //{
+                            //    if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
+                            //    {
+                            //        gameState = SWITCH;
+                            //    }
+                            //    else
+                            //    {
+                            //        RevealTiles(mousePosition, EASY_ROWS, EASY_COLUMN, EASY_TILE_SIZE);
+                            //    }
+                            //}
                             break;
                         case MEDIUM:
-                            if (CheckWin(MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_MINES) == true)
-                            {
-                                gameState = WIN;
-                            }
 
-                            if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
-                            {
-                                SetFlag(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
-                            }
+                            this.boardMid.Update(mousePosition, currentMouseState, lastMouseState);
 
-                            if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
-                            {
-                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
-                                {
-                                    gameState = SWITCH;
-                                }
-                                else
-                                {
-                                    RevealTiles(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
-                                }
-                            }
+                            //if (CheckWin(MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_MINES) == true)
+                            //{
+                            //    gameState = WIN;
+                            //}
+
+                            //if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
+                            //{
+                            //    SetFlag(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
+                            //}
+
+                            //if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                            //{
+                            //    if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
+                            //    {
+                            //        gameState = SWITCH;
+                            //    }
+                            //    else
+                            //    {
+                            //        RevealTiles(mousePosition, MEDIUM_ROWS, MEDIUM_COLUMN, MEDIUM_TILE_SIZE);
+                            //    }
+                            //}
                             break;
                         case HARD:
-                            if (CheckWin(HARD_ROWS, HARD_COLUMN, HARD_MINES) == true)
-                            {
-                                gameState = WIN;
-                            }
+                            this.boardHard.Update(mousePosition, currentMouseState, lastMouseState);
 
-                            if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
-                            {
-                                SetFlag(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
-                            }
+                            //if (CheckWin(HARD_ROWS, HARD_COLUMN, HARD_MINES) == true)
+                            //{
+                            //    gameState = WIN;
+                            //}
 
-                            if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
-                            {
-                                if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
-                                {
-                                    gameState = SWITCH;
-                                }
-                                else
-                                {
-                                    RevealTiles(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
-                                }
-                            }
+                            //if (currentMouseState.RightButton == ButtonState.Pressed && lastMouseState.RightButton == ButtonState.Released)
+                            //{
+                            //    SetFlag(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
+                            //}
+
+                            //if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                            //{
+                            //    if (mousePosition.X > DIFF_BUTTON_LOC && mousePosition.Y > DIFF_BUTTON_LOC && mousePosition.X < DIFF_BUTTON_LOC + DIFF_BUTTON_LENGTH && mousePosition.Y < DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT)
+                            //    {
+                            //        gameState = SWITCH;
+                            //    }
+                            //    else
+                            //    {
+                            //        RevealTiles(mousePosition, HARD_ROWS, HARD_COLUMN, HARD_TILE_SIZE);
+                            //    }
+                            //}
                             break;
                     }
                     break;
@@ -472,41 +489,41 @@ namespace YangA_MP2
                     break;
 
                 case LOSE:
-                    if (currentTime > highTime)
-                    {
-                        highTime = currentTime;
-                    }
+                    //if (currentTime > highTime)
+                    //{
+                    //    highTime = currentTime;
+                    //}
 
-                    WriteFile();
+                    //WriteFile();
 
-                    if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
-                    {
-                        if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
-                        {
-                            gameState = GAMEPLAY;
-                            ResetGame();
-                        }
-                    }
+                    //if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    //{
+                    //    if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
+                    //    {
+                    //        gameState = GAMEPLAY;
+                    //        ResetGame();
+                    //    }
+                    //}
                     break;
 
                 case WIN:
-                    currentTime = Convert.ToInt32(gameTimer.GetTimePassed() / 1000);
+                    //currentTime = Convert.ToInt32(gameTimer.GetTimePassed() / 1000);
 
-                    if (currentTime > highTime)
-                    {
-                        highTime = currentTime;
-                    }
+                    //if (currentTime < highTime)
+                    //{
+                    //    highTime = currentTime;
+                    //}
 
-                    WriteFile();
+                    //WriteFile();
 
-                    if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
-                    {
-                        if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
-                        {
-                            gameState = GAMEPLAY;
-                            ResetGame();
-                        }
-                    }
+                    //if (currentMouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    //{
+                    //    if (mousePosition.X > (easyBoard.Width - gameLose.Width) / 2 && mousePosition.Y > 100 + gameLose.Height && mousePosition.X < (easyBoard.Width - gameLose.Width) / 2 + gameLoseRetry.Width && mousePosition.Y < 100 + gameLose.Height + gameLoseRetry.Height)
+                    //    {
+                    //        gameState = GAMEPLAY;
+                    //        ResetGame();
+                    //    }
+                    //}
                     break;
             }
 
@@ -529,7 +546,7 @@ namespace YangA_MP2
                 case INSTRUCTIONS:
                     spriteBatch.Begin();
                     DrawBoard();
-                    DrawInstruction();
+                    //DrawInstruction();
                     spriteBatch.End();
                     break;
                 case GAMEPLAY:
@@ -540,36 +557,36 @@ namespace YangA_MP2
                 case WIN:
                     spriteBatch.Begin();
                     DrawBoard();
-                    DrawWin();
+                    //DrawWin();
                     spriteBatch.End();
                     break;
                 case LOSE:
                     spriteBatch.Begin();
                     DrawBoard();
-                    DrawLose();
+                    //DrawLose();
                     spriteBatch.End();
                     break;
                 case SWITCH:
                     spriteBatch.Begin();
                     DrawBoard();
-                    Rectangle dropDownRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT, DIFF_BUTTON_LENGTH, DROPDOWN_HEIGHT);
-                    spriteBatch.Draw(dropDown, dropDownRect, Color.White);
+                    //Rectangle dropDownRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT, DIFF_BUTTON_LENGTH, DROPDOWN_HEIGHT);
+                    //spriteBatch.Draw(dropDown, dropDownRect, Color.White);
 
-                    if (gameDiff == EASY)
-                    {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 7, 5, 5);
-                        spriteBatch.Draw(check, checkRect, Color.White);
-                    }
-                    else if (gameDiff == MEDIUM)
-                    {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + 4, 5, 5);
-                        spriteBatch.Draw(check, checkRect, Color.White);
-                    }
-                    else if (gameDiff == HARD)
-                    {
-                        Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3, 5, 5);
-                        spriteBatch.Draw(check, checkRect, Color.White);
-                    }
+                    //if (gameDiff == EASY)
+                    //{
+                    //    Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 - 7, 5, 5);
+                    //    spriteBatch.Draw(check, checkRect, Color.White);
+                    //}
+                    //else if (gameDiff == MEDIUM)
+                    //{
+                    //    Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + 4, 5, 5);
+                    //    spriteBatch.Draw(check, checkRect, Color.White);
+                    //}
+                    //else if (gameDiff == HARD)
+                    //{
+                    //    Rectangle checkRect = new Rectangle(DIFF_BUTTON_LOC + 10, DIFF_BUTTON_LOC + HUD_SPRITE_HEIGHT + DROPDOWN_HEIGHT / 3 + DROPDOWN_HEIGHT / 3, 5, 5);
+                    //    spriteBatch.Draw(check, checkRect, Color.White);
+                    //}
                     spriteBatch.End();
                     break;
             }
@@ -582,786 +599,834 @@ namespace YangA_MP2
             switch (gameDiff)
             {
                 case EASY:
-                    offRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    onRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    clockRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
-                    flagRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
-                    hudRect = new Rectangle(0, 0, easyBoard.Width, hud.Height);
 
-                    spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
-                    spriteBatch.Draw(hud, hudRect, Color.White);
-                    spriteBatch.Draw(clock, clockRect, Color.White);
-                    spriteBatch.Draw(flag, flagRect, Color.White);
-                    spriteBatch.Draw(soundOn, onRect, Color.White);
-                    spriteBatch.Draw(soundOff, offRect, Color.White);
+                    this.boardEasy.DrawBoard(this.spriteBatch, this.gameTimer);
 
-                    Rectangle easyButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
-                    spriteBatch.Draw(easyButton, easyButtonRect, Color.White);
+                    //offRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    //onRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                    //clockRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
+                    //flagRect = new Rectangle(EASY_COLUMN * EASY_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
+                    //hudRect = new Rectangle(0, 0, easyBoard.Width, hud.Height);
 
-                    Vector2 flagLoc = new Vector2(180, 20);
-                    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLoc, Color.White);
+                    //spriteBatch.Draw(easyBoard, easyBoardRect, Color.White);
+                    //spriteBatch.Draw(hud, hudRect, Color.White);
+                    //spriteBatch.Draw(clock, clockRect, Color.White);
+                    //spriteBatch.Draw(flag, flagRect, Color.White);
+                    //spriteBatch.Draw(soundOn, onRect, Color.White);
+                    //spriteBatch.Draw(soundOff, offRect, Color.White);
 
-                    if (gameTimer.IsActive())
-                    {
-                        double timePassed = gameTimer.GetTimePassed();
-                        int secPassed = 0;
+                    //Rectangle easyButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
+                    //spriteBatch.Draw(easyButton, easyButtonRect, Color.White);
 
-                        if (timePassed > 1000)
-                        {
-                            secPassed = Convert.ToInt32(timePassed / 1000);
-                        }
+                    //Vector2 flagLoc = new Vector2(180, 20);
+                    //spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLoc, Color.White);
 
-                        Vector2 timerLoc = new Vector2(260, 20);
-                        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
-                    }
+                    //if (gameTimer.IsActive())
+                    //{
+                    //    double timePassed = gameTimer.GetTimePassed();
+                    //    int secPassed = 0;
 
-                    for (int i = 0; i < EASY_ROWS; i++)
-                    {
-                        for (int j = 0; j < EASY_COLUMN; j++)
-                        {
-                            if (Tiles[i, j].GetState() == FLAG)
-                            {
-                                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                spriteBatch.Draw(flag, flagTileRect, Color.White);
-                            }
+                    //    if (timePassed > 1000)
+                    //    {
+                    //        secPassed = Convert.ToInt32(timePassed / 1000);
+                    //    }
 
-                            if (Tiles[i, j].GetState() == REVEALED)
-                            {
-                                //Different places are different sprites on board
-                                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
-                                {
-                                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
-                                }
-                                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
-                                {
-                                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
-                                }
+                    //    Vector2 timerLoc = new Vector2(260, 20);
+                    //    spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
+                    //}
 
-                                switch (Tiles[i, j].BombCount(Bombs))
-                                {
-                                    case 1:
-                                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(one, oneRect, Color.White);
-                                        break;
-                                    case 2:
-                                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(two, twoRect, Color.White);
-                                        break;
-                                    case 3:
-                                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(three, threeRect, Color.White);
-                                        break;
-                                    case 4:
-                                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(four, fourRect, Color.White);
-                                        break;
-                                    case 5:
-                                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(five, fiveRect, Color.White);
-                                        break;
-                                    case 6:
-                                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(six, sixRect, Color.White);
-                                        break;
-                                    case 7:
-                                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(seven, sevenRect, Color.White);
-                                        break;
-                                    case 8:
-                                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(eight, eightRect, Color.White);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
+                    //for (int i = 0; i < EASY_ROWS; i++)
+                    //{
+                    //    for (int j = 0; j < EASY_COLUMN; j++)
+                    //    {
+                    //        if (Tiles[i, j].GetState() == FLAG)
+                    //        {
+                    //            Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //            spriteBatch.Draw(flag, flagTileRect, Color.White);
+                    //        }
 
-                            if (Tiles[i, j].GetBombColor() == -1)
-                            {
-                                int num = rnd.Next(1, 9);
+                    //        if (Tiles[i, j].GetState() == REVEALED)
+                    //        {
+                    //            //Different places are different sprites on board
+                    //            if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
+                    //            {
+                    //                Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                spriteBatch.Draw(clearLight, clearLightRect, Color.White);
+                    //            }
+                    //            else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
+                    //            {
+                    //                Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
+                    //            }
 
-                                Tiles[i, j].SetBombColor(num);
-                            }
+                    //            switch (Tiles[i, j].BombCount(Bombs))
+                    //            {
+                    //                case 1:
+                    //                    Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(one, oneRect, Color.White);
+                    //                    break;
+                    //                case 2:
+                    //                    Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(two, twoRect, Color.White);
+                    //                    break;
+                    //                case 3:
+                    //                    Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(three, threeRect, Color.White);
+                    //                    break;
+                    //                case 4:
+                    //                    Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(four, fourRect, Color.White);
+                    //                    break;
+                    //                case 5:
+                    //                    Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(five, fiveRect, Color.White);
+                    //                    break;
+                    //                case 6:
+                    //                    Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(six, sixRect, Color.White);
+                    //                    break;
+                    //                case 7:
+                    //                    Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(seven, sevenRect, Color.White);
+                    //                    break;
+                    //                case 8:
+                    //                    Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(eight, eightRect, Color.White);
+                    //                    break;
+                    //                default:
+                    //                    break;
+                    //            }
+                    //        }
 
-                            if (Tiles[i, j].GetState() == BOMB)
-                            {
-                                switch (Tiles[i, j].GetBombColor())
-                                {
-                                    case 1:
-                                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
-                                        break;
-                                    case 2:
-                                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
-                                        break;
-                                    case 3:
-                                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
-                                        break;
-                                    case 4:
-                                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
-                                        break;
-                                    case 5:
-                                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
-                                        break;
-                                    case 6:
-                                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
-                                        break;
-                                    case 7:
-                                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
-                                        break;
-                                    case 8:
-                                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
-                                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
-                                        break;
-                                }
-                            }
-                        }
-                    }
+                    //        if (Tiles[i, j].GetBombColor() == -1)
+                    //        {
+                    //            int num = rnd.Next(1, 9);
+
+                    //            Tiles[i, j].SetBombColor(num);
+                    //        }
+
+                    //        if (Tiles[i, j].GetState() == BOMB)
+                    //        {
+                    //            switch (Tiles[i, j].GetBombColor())
+                    //            {
+                    //                case 1:
+                    //                    Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine1, mine1Rec, Color.White);
+                    //                    break;
+                    //                case 2:
+                    //                    Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine2, mine2Rec, Color.White);
+                    //                    break;
+                    //                case 3:
+                    //                    Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine3, mine3Rec, Color.White);
+                    //                    break;
+                    //                case 4:
+                    //                    Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine4, mine4Rec, Color.White);
+                    //                    break;
+                    //                case 5:
+                    //                    Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine5, mine5Rec, Color.White);
+                    //                    break;
+                    //                case 6:
+                    //                    Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine6, mine6Rec, Color.White);
+                    //                    break;
+                    //                case 7:
+                    //                    Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine7, mine7Rec, Color.White);
+                    //                    break;
+                    //                case 8:
+                    //                    Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), EASY_TILE_SIZE, EASY_TILE_SIZE);
+                    //                    spriteBatch.Draw(mine8, mine8Rec, Color.White);
+                    //                    break;
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     break;
                 case MEDIUM:
-                    offRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    onRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    clockRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
-                    flagRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
-                    hudRect = new Rectangle(0, 0, medBoard.Width, hud.Height);
 
-                    spriteBatch.Draw(medBoard, medBoardRect, Color.White);
-                    spriteBatch.Draw(hud, hudRect, Color.White);
-                    spriteBatch.Draw(clock, clockRect, Color.White);
-                    spriteBatch.Draw(flag, flagRect, Color.White);
-                    spriteBatch.Draw(soundOn, onRect, Color.White);
-                    spriteBatch.Draw(soundOff, offRect, Color.White);
+                    this.boardMid.DrawBoard(this.spriteBatch, this.gameTimer);
 
-                    Rectangle medButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
-                    spriteBatch.Draw(mediumButton, medButtonRect, Color.White);
+                //offRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                //onRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                //clockRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
+                //flagRect = new Rectangle(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
+                //hudRect = new Rectangle(0, 0, medBoard.Width, hud.Height);
 
-                    Vector2 flagLocMed = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 265, 20);
-                    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocMed, Color.White);
+                //spriteBatch.Draw(medBoard, medBoardRect, Color.White);
+                //spriteBatch.Draw(hud, hudRect, Color.White);
+                //spriteBatch.Draw(clock, clockRect, Color.White);
+                //spriteBatch.Draw(flag, flagRect, Color.White);
+                //spriteBatch.Draw(soundOn, onRect, Color.White);
+                //spriteBatch.Draw(soundOff, offRect, Color.White);
 
-                    if (gameTimer.IsActive())
-                    {
-                        double timePassed = gameTimer.GetTimePassed();
-                        int secPassed = 0;
+                //Rectangle medButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
+                //spriteBatch.Draw(mediumButton, medButtonRect, Color.White);
 
-                        if (timePassed > 1000)
-                        {
-                            secPassed = Convert.ToInt32(timePassed / 1000);
-                        }
+                //Vector2 flagLocMed = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 265, 20);
+                //spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocMed, Color.White);
 
-                        Vector2 timerLoc = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 190, 20);
-                        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
-                    }
+                //if (gameTimer.IsActive())
+                //{
+                //    double timePassed = gameTimer.GetTimePassed();
+                //    int secPassed = 0;
 
-                    for (int i = 0; i < MEDIUM_ROWS; i++)
-                    {
-                        for (int j = 0; j < MEDIUM_COLUMN; j++)
-                        {
-                            if (Tiles[i, j].GetState() == FLAG)
-                            {
-                                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                spriteBatch.Draw(flag, flagTileRect, Color.White);
-                            }
+                //    if (timePassed > 1000)
+                //    {
+                //        secPassed = Convert.ToInt32(timePassed / 1000);
+                //    }
 
-                            if (Tiles[i, j].GetState() == REVEALED)
-                            {
-                                //Different places are different sprites on board
-                                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
-                                {
-                                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
-                                }
-                                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
-                                {
-                                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
-                                }
+                //    Vector2 timerLoc = new Vector2(MEDIUM_COLUMN * MEDIUM_TILE_SIZE - 190, 20);
+                //    spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
+                //}
 
-                                switch (Tiles[i, j].BombCount(Bombs))
-                                {
-                                    case 1:
-                                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(one, oneRect, Color.White);
-                                        break;
-                                    case 2:
-                                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(two, twoRect, Color.White);
-                                        break;
-                                    case 3:
-                                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(three, threeRect, Color.White);
-                                        break;
-                                    case 4:
-                                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(four, fourRect, Color.White);
-                                        break;
-                                    case 5:
-                                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(five, fiveRect, Color.White);
-                                        break;
-                                    case 6:
-                                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(six, sixRect, Color.White);
-                                        break;
-                                    case 7:
-                                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(seven, sevenRect, Color.White);
-                                        break;
-                                    case 8:
-                                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(eight, eightRect, Color.White);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
+                //for (int i = 0; i < MEDIUM_ROWS; i++)
+                //{
+                //    for (int j = 0; j < MEDIUM_COLUMN; j++)
+                //    {
+                //        if (Tiles[i, j].GetState() == FLAG)
+                //        {
+                //            Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //            spriteBatch.Draw(flag, flagTileRect, Color.White);
+                //        }
 
-                            if (Tiles[i, j].GetBombColor() == -1)
-                            {
-                                int num = rnd.Next(1, 9);
+                //        if (Tiles[i, j].GetState() == REVEALED)
+                //        {
+                //            //Different places are different sprites on board
+                //            if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
+                //            {
+                //                Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                spriteBatch.Draw(clearLight, clearLightRect, Color.White);
+                //            }
+                //            else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
+                //            {
+                //                Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
+                //            }
 
-                                Tiles[i, j].SetBombColor(num);
-                            }
+                //            switch (Tiles[i, j].BombCount(Bombs))
+                //            {
+                //                case 1:
+                //                    Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(one, oneRect, Color.White);
+                //                    break;
+                //                case 2:
+                //                    Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(two, twoRect, Color.White);
+                //                    break;
+                //                case 3:
+                //                    Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(three, threeRect, Color.White);
+                //                    break;
+                //                case 4:
+                //                    Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(four, fourRect, Color.White);
+                //                    break;
+                //                case 5:
+                //                    Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(five, fiveRect, Color.White);
+                //                    break;
+                //                case 6:
+                //                    Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(six, sixRect, Color.White);
+                //                    break;
+                //                case 7:
+                //                    Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(seven, sevenRect, Color.White);
+                //                    break;
+                //                case 8:
+                //                    Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(eight, eightRect, Color.White);
+                //                    break;
+                //                default:
+                //                    break;
+                //            }
+                //        }
 
-                            if (Tiles[i, j].GetState() == BOMB)
-                            {
-                                switch (Tiles[i, j].GetBombColor())
-                                {
-                                    case 1:
-                                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
-                                        break;
-                                    case 2:
-                                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
-                                        break;
-                                    case 3:
-                                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
-                                        break;
-                                    case 4:
-                                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
-                                        break;
-                                    case 5:
-                                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
-                                        break;
-                                    case 6:
-                                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
-                                        break;
-                                    case 7:
-                                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
-                                        break;
-                                    case 8:
-                                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
-                                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                    break;
+                //        if (Tiles[i, j].GetBombColor() == -1)
+                //        {
+                //            int num = rnd.Next(1, 9);
+
+                //            Tiles[i, j].SetBombColor(num);
+                //        }
+
+                //        if (Tiles[i, j].GetState() == BOMB)
+                //        {
+                //            switch (Tiles[i, j].GetBombColor())
+                //            {
+                //                case 1:
+                //                    Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine1, mine1Rec, Color.White);
+                //                    break;
+                //                case 2:
+                //                    Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine2, mine2Rec, Color.White);
+                //                    break;
+                //                case 3:
+                //                    Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine3, mine3Rec, Color.White);
+                //                    break;
+                //                case 4:
+                //                    Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine4, mine4Rec, Color.White);
+                //                    break;
+                //                case 5:
+                //                    Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine5, mine5Rec, Color.White);
+                //                    break;
+                //                case 6:
+                //                    Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine6, mine6Rec, Color.White);
+                //                    break;
+                //                case 7:
+                //                    Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine7, mine7Rec, Color.White);
+                //                    break;
+                //                case 8:
+                //                    Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), MEDIUM_TILE_SIZE, MEDIUM_TILE_SIZE);
+                //                    spriteBatch.Draw(mine8, mine8Rec, Color.White);
+                //                    break;
+                //            }
+                //        }
+                //    }
+                //}
+                break;
                 case HARD:
-                    offRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    onRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
-                    clockRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
-                    flagRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
-                    hudRect = new Rectangle(0, 0, hardBoard.Width, hud.Height);
 
-                    spriteBatch.Draw(hardBoard, hardBoardRect, Color.White);
-                    spriteBatch.Draw(hud, hudRect, Color.White);
-                    spriteBatch.Draw(clock, clockRect, Color.White);
-                    spriteBatch.Draw(flag, flagRect, Color.White);
-                    spriteBatch.Draw(soundOn, onRect, Color.White);
-                    spriteBatch.Draw(soundOff, offRect, Color.White);
+                    this.boardHard.DrawBoard(this.spriteBatch, this.gameTimer);  
 
-                    Rectangle hardButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
-                    spriteBatch.Draw(hardButton, hardButtonRect, Color.White);
+                //    offRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                //    onRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 85, 12, 30, HUD_SPRITE_HEIGHT);
+                //    clockRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 230, 12, 30, HUD_SPRITE_HEIGHT);
+                //    flagRect = new Rectangle(HARD_COLUMN * HARD_TILE_SIZE - 310, 12, 35, HUD_SPRITE_HEIGHT);
+                //    hudRect = new Rectangle(0, 0, hardBoard.Width, hud.Height);
 
-                    Vector2 flagLocHard = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 270, 20);
-                    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocHard, Color.White);
+                //    spriteBatch.Draw(hardBoard, hardBoardRect, Color.White);
+                //    spriteBatch.Draw(hud, hudRect, Color.White);
+                //    spriteBatch.Draw(clock, clockRect, Color.White);
+                //    spriteBatch.Draw(flag, flagRect, Color.White);
+                //    spriteBatch.Draw(soundOn, onRect, Color.White);
+                //    spriteBatch.Draw(soundOff, offRect, Color.White);
 
-                    if (gameTimer.IsActive())
-                    {
-                        double timePassed = gameTimer.GetTimePassed();
-                        int secPassed = 0;
+                //    Rectangle hardButtonRect = new Rectangle(DIFF_BUTTON_LOC, DIFF_BUTTON_LOC, DIFF_BUTTON_LENGTH, HUD_SPRITE_HEIGHT);
+                //    spriteBatch.Draw(hardButton, hardButtonRect, Color.White);
 
-                        if (timePassed > 1000)
-                        {
-                            secPassed = Convert.ToInt32(timePassed / 1000);
-                        }
+                //    Vector2 flagLocHard = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 270, 20);
+                //    spriteBatch.DrawString(gameFont, flagNum.ToString(), flagLocHard, Color.White);
 
-                        Vector2 timerLoc = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 190, 20);
-                        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
-                    }
+                //    if (gameTimer.IsActive())
+                //    {
+                //        double timePassed = gameTimer.GetTimePassed();
+                //        int secPassed = 0;
 
-                    for (int i = 0; i < HARD_ROWS; i++)
-                    {
-                        for (int j = 0; j < HARD_COLUMN; j++)
-                        {
-                            if (Tiles[i, j].GetState() == FLAG)
-                            {
-                                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                spriteBatch.Draw(flag, flagTileRect, Color.White);
-                            }
+                //        if (timePassed > 1000)
+                //        {
+                //            secPassed = Convert.ToInt32(timePassed / 1000);
+                //        }
 
-                            if (Tiles[i, j].GetState() == REVEALED)
-                            {
-                                //Different places are different sprites on board
-                                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
-                                {
-                                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
-                                }
-                                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
-                                {
-                                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
-                                }
+                //        Vector2 timerLoc = new Vector2(HARD_COLUMN * HARD_TILE_SIZE - 190, 20);
+                //        spriteBatch.DrawString(gameFont, secPassed.ToString("000"), timerLoc, Color.White);
+                //    }
 
-                                switch (Tiles[i, j].BombCount(Bombs))
-                                {
-                                    case 1:
-                                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(one, oneRect, Color.White);
-                                        break;
-                                    case 2:
-                                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(two, twoRect, Color.White);
-                                        break;
-                                    case 3:
-                                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(three, threeRect, Color.White);
-                                        break;
-                                    case 4:
-                                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(four, fourRect, Color.White);
-                                        break;
-                                    case 5:
-                                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(five, fiveRect, Color.White);
-                                        break;
-                                    case 6:
-                                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(six, sixRect, Color.White);
-                                        break;
-                                    case 7:
-                                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(seven, sevenRect, Color.White);
-                                        break;
-                                    case 8:
-                                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(eight, eightRect, Color.White);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
+                //    for (int i = 0; i < HARD_ROWS; i++)
+                //    {
+                //        for (int j = 0; j < HARD_COLUMN; j++)
+                //        {
+                //            if (Tiles[i, j].GetState() == FLAG)
+                //            {
+                //                Rectangle flagTileRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                spriteBatch.Draw(flag, flagTileRect, Color.White);
+                //            }
 
-                            if (Tiles[i, j].GetBombColor() == -1)
-                            {
-                                int num = rnd.Next(1, 9);
+                //            if (Tiles[i, j].GetState() == REVEALED)
+                //            {
+                //                //Different places are different sprites on board
+                //                if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 == 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 != 0)
+                //                {
+                //                    Rectangle clearLightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                    spriteBatch.Draw(clearLight, clearLightRect, Color.White);
+                //                }
+                //                else if (Tiles[i, j].GetColumn() % 2 == 0 && Tiles[i, j].GetRow() % 2 != 0 || Tiles[i, j].GetColumn() % 2 != 0 && Tiles[i, j].GetRow() % 2 == 0)
+                //                {
+                //                    Rectangle clearDarkRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                    spriteBatch.Draw(clearDark, clearDarkRect, Color.White);
+                //                }
 
-                                Tiles[i, j].SetBombColor(num);
-                            }
+                //                switch (Tiles[i, j].BombCount(Bombs))
+                //                {
+                //                    case 1:
+                //                        Rectangle oneRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(one, oneRect, Color.White);
+                //                        break;
+                //                    case 2:
+                //                        Rectangle twoRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(two, twoRect, Color.White);
+                //                        break;
+                //                    case 3:
+                //                        Rectangle threeRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(three, threeRect, Color.White);
+                //                        break;
+                //                    case 4:
+                //                        Rectangle fourRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(four, fourRect, Color.White);
+                //                        break;
+                //                    case 5:
+                //                        Rectangle fiveRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(five, fiveRect, Color.White);
+                //                        break;
+                //                    case 6:
+                //                        Rectangle sixRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(six, sixRect, Color.White);
+                //                        break;
+                //                    case 7:
+                //                        Rectangle sevenRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(seven, sevenRect, Color.White);
+                //                        break;
+                //                    case 8:
+                //                        Rectangle eightRect = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(eight, eightRect, Color.White);
+                //                        break;
+                //                    default:
+                //                        break;
+                //                }
+                //            }
 
-                            if (Tiles[i, j].GetState() == BOMB)
-                            {
-                                switch (Tiles[i, j].GetBombColor())
-                                {
-                                    case 1:
-                                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
-                                        break;
-                                    case 2:
-                                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
-                                        break;
-                                    case 3:
-                                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
-                                        break;
-                                    case 4:
-                                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
-                                        break;
-                                    case 5:
-                                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
-                                        break;
-                                    case 6:
-                                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
-                                        break;
-                                    case 7:
-                                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
-                                        break;
-                                    case 8:
-                                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
-                                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
-                                        break;
-                                }
-                            }
-                        }
-                    }
+                //            if (Tiles[i, j].GetBombColor() == -1)
+                //            {
+                //                int num = rnd.Next(1, 9);
+
+                //                Tiles[i, j].SetBombColor(num);
+                //            }
+
+                //            if (Tiles[i, j].GetState() == BOMB)
+                //            {
+                //                switch (Tiles[i, j].GetBombColor())
+                //                {
+                //                    case 1:
+                //                        Rectangle mine1Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine1, mine1Rec, Color.White);
+                //                        break;
+                //                    case 2:
+                //                        Rectangle mine2Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine2, mine2Rec, Color.White);
+                //                        break;
+                //                    case 3:
+                //                        Rectangle mine3Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine3, mine3Rec, Color.White);
+                //                        break;
+                //                    case 4:
+                //                        Rectangle mine4Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine4, mine4Rec, Color.White);
+                //                        break;
+                //                    case 5:
+                //                        Rectangle mine5Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine5, mine5Rec, Color.White);
+                //                        break;
+                //                    case 6:
+                //                        Rectangle mine6Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine6, mine6Rec, Color.White);
+                //                        break;
+                //                    case 7:
+                //                        Rectangle mine7Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine7, mine7Rec, Color.White);
+                //                        break;
+                //                    case 8:
+                //                        Rectangle mine8Rec = new Rectangle(Tiles[i, j].GetX(), Tiles[i, j].GetY(), HARD_TILE_SIZE, HARD_TILE_SIZE);
+                //                        spriteBatch.Draw(mine8, mine8Rec, Color.White);
+                //                        break;
+                //                }
+                //            }
+                //        }
+                //    }
                     break;
             }
         }
 
-        private void DrawLose()
-        {
-            switch (gameDiff)
-            {
-                case EASY:
-                    Rectangle gameLoseRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
-                    spriteBatch.Draw(gameLose, gameLoseRec, Color.White);
-                    Rectangle gameLoseNoScoreRec = new Rectangle(135, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                    spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec, Color.White);
-                    Rectangle gameLoseRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-                    spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec, Color.White);
+        //private void DrawLose()
+        //{
+        //    switch (gameDiff)
+        //    {
+        //        case EASY:
+        //            Rectangle gameLoseRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+        //            spriteBatch.Draw(gameLose, gameLoseRec, Color.White);
+        //            Rectangle gameLoseNoScoreRec = new Rectangle(135, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //            spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec, Color.White);
+        //            Rectangle gameLoseRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+        //            spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec, Color.White);
 
-                    if (highTime == 0)
-                    {
-                        Rectangle gameLoseNoScoreRec3 = new Rectangle(265, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec3, Color.White);
-                    }
-                    else
-                    {
-                        Vector2 highScoreLoc = new Vector2(275, 200);
-                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
-                    }
-                    break;
-                case MEDIUM:
-                    Rectangle gameLoseRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
-                    spriteBatch.Draw(gameLose, gameLoseRec2, Color.White);
-                    Rectangle gameLoseNoScoreRec2 = new Rectangle(180, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                    spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec2, Color.White);
-                    Rectangle gameLoseRetryRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-                    spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec2, Color.White);
+        //            if (highTime == 0)
+        //            {
+        //                Rectangle gameLoseNoScoreRec3 = new Rectangle(265, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //                spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec3, Color.White);
+        //            }
+        //            else
+        //            {
+        //                Vector2 highScoreLoc = new Vector2(275, 200);
+        //                spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+        //            }
+        //            break;
+        //        case MEDIUM:
+        //            Rectangle gameLoseRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+        //            spriteBatch.Draw(gameLose, gameLoseRec2, Color.White);
+        //            Rectangle gameLoseNoScoreRec2 = new Rectangle(180, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //            spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec2, Color.White);
+        //            Rectangle gameLoseRetryRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+        //            spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec2, Color.White);
 
-                    if (highTime == 0)
-                    {
-                        Rectangle gameLoseNoScoreRec5 = new Rectangle(310, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec5, Color.White);
-                    }
-                    else
-                    {
-                        Vector2 highScoreLoc = new Vector2(310, 235);
-                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
-                    }
-                    break;
-                case HARD:
-                    Rectangle gameLoseRec4 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
-                    spriteBatch.Draw(gameLose, gameLoseRec4, Color.White);
-                    Rectangle gameLoseNoScoreRec4 = new Rectangle(210, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                    spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec4, Color.White);
-                    Rectangle gameLoseRetryRec4 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-                    spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec4, Color.White);
+        //            if (highTime == 0)
+        //            {
+        //                Rectangle gameLoseNoScoreRec5 = new Rectangle(310, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //                spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec5, Color.White);
+        //            }
+        //            else
+        //            {
+        //                Vector2 highScoreLoc = new Vector2(310, 235);
+        //                spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+        //            }
+        //            break;
+        //        case HARD:
+        //            Rectangle gameLoseRec4 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+        //            spriteBatch.Draw(gameLose, gameLoseRec4, Color.White);
+        //            Rectangle gameLoseNoScoreRec4 = new Rectangle(210, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //            spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec4, Color.White);
+        //            Rectangle gameLoseRetryRec4 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+        //            spriteBatch.Draw(gameLoseRetry, gameLoseRetryRec4, Color.White);
 
-                    if (highTime == 0)
-                    {
-                        Rectangle gameLoseNoScoreRec6 = new Rectangle(340, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec6, Color.White);
-                    }
-                    else
-                    {
-                        Vector2 highScoreLoc = new Vector2(340, 235);
-                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
-                    }
-                    break;
-            }
-        }
+        //            if (highTime == 0)
+        //            {
+        //                Rectangle gameLoseNoScoreRec6 = new Rectangle(340, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //                spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec6, Color.White);
+        //            }
+        //            else
+        //            {
+        //                Vector2 highScoreLoc = new Vector2(340, 235);
+        //                spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+        //            }
+        //            break;
+        //    }
+        //}
 
-        private void DrawWin()
-        {
-            switch (gameDiff)
-            {
-                case EASY:
-                    Rectangle gameWinRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
-                    spriteBatch.Draw(gameWin, gameWinRec, Color.White);
-                    Rectangle gameWinRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-                    spriteBatch.Draw(gameWinRetry, gameWinRetryRec, Color.White);
-                    Vector2 currentScorLoc = new Vector2(135, 200);
-                    spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc, Color.White);
+        //private void DrawWin()
+        //{
+        //    switch (gameDiff)
+        //    {
+        //        case EASY:
+        //            Rectangle gameWinRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+        //            spriteBatch.Draw(gameWin, gameWinRec, Color.White);
+        //            Rectangle gameWinRetryRec = new Rectangle((easyBoard.Width - gameLose.Width) / 2, (easyBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+        //            spriteBatch.Draw(gameWinRetry, gameWinRetryRec, Color.White);
+        //            Vector2 currentScorLoc = new Vector2(135, 200);
+        //            spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc, Color.White);
 
-                    if (highTime == 0)
-                    {
-                        Rectangle gameLoseNoScoreRec3 = new Rectangle(265, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec3, Color.White);
-                    }
-                    else
-                    {
-                        Vector2 highScoreLoc = new Vector2(275, 200);
-                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
-                    }
-                    break;
-                case MEDIUM:
-                    Rectangle gameWinRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
-                    spriteBatch.Draw(gameWin, gameWinRec2, Color.White);
-                    Rectangle gameWinRetryRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-                    spriteBatch.Draw(gameWinRetry, gameWinRetryRec2, Color.White);
-                    Vector2 currentScorLoc2 = new Vector2(180, 235);
-                    spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc2, Color.White);
+        //            if (highTime == 0)
+        //            {
+        //                Rectangle gameLoseNoScoreRec3 = new Rectangle(265, 200, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //                spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec3, Color.White);
+        //            }
+        //            else
+        //            {
+        //                Vector2 highScoreLoc = new Vector2(275, 200);
+        //                spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc, Color.White);
+        //            }
+        //            break;
+        //        case MEDIUM:
+        //            Rectangle gameWinRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+        //            spriteBatch.Draw(gameWin, gameWinRec2, Color.White);
+        //            Rectangle gameWinRetryRec2 = new Rectangle((medBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+        //            spriteBatch.Draw(gameWinRetry, gameWinRetryRec2, Color.White);
+        //            Vector2 currentScorLoc2 = new Vector2(180, 235);
+        //            spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc2, Color.White);
 
-                    if (highTime == 0)
-                    {
-                        Rectangle gameLoseNoScoreRec5 = new Rectangle(310, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec5, Color.White);
-                    }
-                    else
-                    {
-                        Vector2 highScoreLoc2 = new Vector2(310, 235);
-                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc2, Color.White);
-                    }
-                    break;
-                case HARD:
-                    Rectangle gameWinRec3 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
-                    spriteBatch.Draw(gameWin, gameWinRec3, Color.White);
-                    Rectangle gameWinRetryRec3 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
-                    spriteBatch.Draw(gameWinRetry, gameWinRetryRec3, Color.White);
-                    Vector2 currentScorLoc3 = new Vector2(210, 235);
-                    spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc3, Color.White);
+        //            if (highTime == 0)
+        //            {
+        //                Rectangle gameLoseNoScoreRec5 = new Rectangle(310, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //                spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec5, Color.White);
+        //            }
+        //            else
+        //            {
+        //                Vector2 highScoreLoc2 = new Vector2(310, 235);
+        //                spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc2, Color.White);
+        //            }
+        //            break;
+        //        case HARD:
+        //            Rectangle gameWinRec3 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2, gameLose.Width, gameLose.Height);
+        //            spriteBatch.Draw(gameWin, gameWinRec3, Color.White);
+        //            Rectangle gameWinRetryRec3 = new Rectangle((hardBoard.Width - gameLose.Width) / 2, (medBoard.Height - gameLose.Height + HUD_HEIGHT) / 2 + gameLose.Height, gameLose.Width, gameLoseRetry.Height);
+        //            spriteBatch.Draw(gameWinRetry, gameWinRetryRec3, Color.White);
+        //            Vector2 currentScorLoc3 = new Vector2(210, 235);
+        //            spriteBatch.DrawString(gameFont, currentTime.ToString("000"), currentScorLoc3, Color.White);
 
-                    if (highTime == 0)
-                    {
-                        Rectangle gameLoseNoScoreRec6 = new Rectangle(340, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
-                        spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec6, Color.White);
-                    }
-                    else
-                    {
-                        Vector2 highScoreLoc3 = new Vector2(340, 235);
-                        spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc3, Color.White);
-                    }
-                    break;
-            }
-        }
+        //            if (highTime == 0)
+        //            {
+        //                Rectangle gameLoseNoScoreRec6 = new Rectangle(340, 235, gameLoseNoScore.Width, gameLoseNoScore.Height);
+        //                spriteBatch.Draw(gameLoseNoScore, gameLoseNoScoreRec6, Color.White);
+        //            }
+        //            else
+        //            {
+        //                Vector2 highScoreLoc3 = new Vector2(340, 235);
+        //                spriteBatch.DrawString(gameFont, highTime.ToString("000"), highScoreLoc3, Color.White);
+        //            }
+        //            break;
+        //    }
+        //}
 
 
-        private void DrawInstruction()
-        {
-            Rectangle inst1Rect = new Rectangle((EASY_COLUMN * EASY_TILE_SIZE) / 2 -100, (EASY_ROWS * EASY_TILE_SIZE) / 2 - 50, 100, 100);
-            spriteBatch.Draw(inst1, inst1Rect, Color.White);
+        //private void DrawInstruction()
+        //{
+        //    Rectangle inst1Rect = new Rectangle((EASY_COLUMN * EASY_TILE_SIZE) / 2 -100, (EASY_ROWS * EASY_TILE_SIZE) / 2 - 50, 100, 100);
+        //    spriteBatch.Draw(inst1, inst1Rect, Color.White);
 
-            Rectangle inst2Rect = new Rectangle((EASY_COLUMN * EASY_TILE_SIZE) / 2, (EASY_ROWS * EASY_TILE_SIZE) / 2 - 50, 100, 100);
-            spriteBatch.Draw(inst2, inst2Rect, Color.White);
-        }
+        //    Rectangle inst2Rect = new Rectangle((EASY_COLUMN * EASY_TILE_SIZE) / 2, (EASY_ROWS * EASY_TILE_SIZE) / 2 - 50, 100, 100);
+        //    spriteBatch.Draw(inst2, inst2Rect, Color.White);
+        //}
 
         private void ResetGame()
         {
-            //reset tile revealed, reset bombs, reset flags, reset timer, reset bomb count
-            Bombs.Clear();
-
-            int bombLocation;
-            Random randomLocation = new Random();
-
             gameTimer.ResetTimer(true);
 
             switch (gameDiff)
             {
                 case EASY:
+
                     graphics.PreferredBackBufferWidth = EASY_TILE_SIZE * EASY_COLUMN;
                     graphics.PreferredBackBufferHeight = EASY_TILE_SIZE * EASY_ROWS + HUD_HEIGHT;
                     graphics.ApplyChanges();
 
-                    flagNum = EASY_MINES;
+                    //FlagNum = EASY_MINES;
 
-                    Tiles = new Tile[EASY_ROWS, EASY_COLUMN];
-
-                    while (Bombs.Count < EASY_MINES)
-                    {
-                        bombLocation = randomLocation.Next(0, EASY_COLUMN * EASY_ROWS + 1);
-
-                        if (!Bombs.Contains(bombLocation))
-                        {
-                            Bombs.Add(bombLocation);
-                        }
-                    }
+                    this.boardEasy.Reset();
                     break;
                 case MEDIUM:
                     graphics.PreferredBackBufferWidth = MEDIUM_TILE_SIZE * MEDIUM_COLUMN;
                     graphics.PreferredBackBufferHeight = MEDIUM_TILE_SIZE * MEDIUM_ROWS + HUD_HEIGHT;
                     graphics.ApplyChanges();
 
-                    flagNum = MEDIUM_MINES;
+                    //FlagNum = MEDIUM_MINES;
 
-                    Tiles = new Tile[MEDIUM_ROWS, MEDIUM_COLUMN];
-
-                    while (Bombs.Count < MEDIUM_MINES)
-                    {
-                        bombLocation = randomLocation.Next(0, MEDIUM_COLUMN * MEDIUM_ROWS + 1);
-
-                        if (!Bombs.Contains(bombLocation))
-                        {
-                            Bombs.Add(bombLocation);
-                        }
-                    }
+                    this.boardMid.Reset();
                     break;
                 case HARD:
                     graphics.PreferredBackBufferWidth = HARD_TILE_SIZE * HARD_COLUMN;
                     graphics.PreferredBackBufferHeight = HARD_TILE_SIZE * HARD_ROWS + HUD_HEIGHT;
                     graphics.ApplyChanges();
 
-                    flagNum = HARD_MINES;
-
-                    Tiles = new Tile[HARD_ROWS, HARD_COLUMN];
-
-                    while (Bombs.Count < HARD_MINES)
-                    {
-                        bombLocation = randomLocation.Next(0, HARD_COLUMN * HARD_ROWS + 1);
-
-                        if (!Bombs.Contains(bombLocation))
-                        {
-                            Bombs.Add(bombLocation);
-                        }
-                    }
+                    //FlagNum = HARD_MINES; 
+                    this.boardHard.Reset();
                     break;
             }
-
-            SetTiles();
 
             isReset = false;
+
         }
 
-        private void SetTiles()
-        {
-            switch (gameDiff)
-            {
-                case EASY:
-                    for (int i = 0; i < EASY_ROWS; i++)
-                    {
-                        for (int j = 0; j < EASY_COLUMN; j++)
-                        {
-                            Tiles[i, j] = new Tile(j * EASY_TILE_SIZE, i * EASY_TILE_SIZE + HUD_HEIGHT, i, j);
-                            Tiles[i, j].BombCount(Bombs);
-                            Tiles[i, j].SetBombColor(-1);
-                        }
-                    }
-                    for (int i = 0; i < EASY_ROWS; i++)
-                    {
-                        for (int j = 0; j < EASY_COLUMN; j++)
-                        {
-                            Tiles[i, j].SetAdj(Tiles);
-                        }
-                    }
-                    break;
-                case MEDIUM:
-                    for (int i = 0; i < MEDIUM_ROWS; i++)
-                    {
-                        for (int j = 0; j < MEDIUM_COLUMN; j++)
-                        {
-                            Tiles[i, j] = new Tile(j * MEDIUM_TILE_SIZE, i * MEDIUM_TILE_SIZE + HUD_HEIGHT, i, j);
-                            Tiles[i, j].BombCount(Bombs);
-                            Tiles[i, j].SetBombColor(-1);
-                        }
-                    }
-                    for (int i = 0; i < MEDIUM_ROWS; i++)
-                    {
-                        for (int j = 0; j < MEDIUM_COLUMN; j++)
-                        {
-                            Tiles[i, j].SetAdj(Tiles);
-                        }
-                    }
-                    break;
-                case HARD:
-                    for (int i = 0; i < HARD_ROWS; i++)
-                    {
-                        for (int j = 0; j < HARD_COLUMN; j++)
-                        {
-                            Tiles[i, j] = new Tile(j * HARD_TILE_SIZE, i * HARD_TILE_SIZE + HUD_HEIGHT, i, j);
-                            Tiles[i, j].BombCount(Bombs);
-                            Tiles[i, j].SetBombColor(-1);
-                        }
-                    }
-                    for (int i = 0; i < HARD_ROWS; i++)
-                    {
-                        for (int j = 0; j < HARD_COLUMN; j++)
-                        {
-                            Tiles[i, j].SetAdj(Tiles);
-                        }
-                    }
-                    break;
-            }
-        }
+        //private void ResetGame()
+        //{
+        //    //reset tile revealed, reset bombs, reset flags, reset timer, reset bomb count
+        //    Bombs.Clear();
 
-        private void ShowAllBomb(int row, int column)
-        {
-            for (int k = 0; k < row; k++)
-            {
-                for (int l = 0; l < column; l++)
-                {
-                    if (Tiles[k, l].IsBomb(Bombs) == true)
-                    {
-                        Tiles[k, l].SetState(BOMB);
-                    }
-                }
-            }
-        }
+        //    int bombLocation;
+        //    Random randomLocation = new Random();
 
-        private void RevealTiles(Point mousePosition, int row, int column, int tileSize)
-        {
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < column; j++)
-                {
-                    if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
-                    {
-                        if (Tiles[i, j].IsBomb(Bombs) == true)
-                        {
-                            ShowAllBomb(row, column);
+        //    gameTimer.ResetTimer(true);
 
-                            //instTimer.ResetTimer(true);
-                            
-                            //double timePassed = instTimer.GetTimePassed();
-                            ////int secPassed = 0;
+        //    switch (gameDiff)
+        //    {
+        //        case EASY:
+        //            graphics.PreferredBackBufferWidth = EASY_TILE_SIZE * EASY_COLUMN;
+        //            graphics.PreferredBackBufferHeight = EASY_TILE_SIZE * EASY_ROWS + HUD_HEIGHT;
+        //            graphics.ApplyChanges();
 
-                            //if (timePassed >= 2000)
-                            {
-                                gameState = LOSE;
-                            }
+        //            flagNum = EASY_MINES;
 
-                        }
-                        else
-                        {
-                            Tiles[i, j].RevealTiles();
-                        }
-                    }
-                }
-            }
-        }
+        //            Tiles = new Tile[EASY_ROWS, EASY_COLUMN];
 
-        private void SetFlag(Point mousePosition, int row, int column, int tileSize)
-        {
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < column; j++)
-                {
-                    if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
-                    {
-                        if (Tiles[i, j].GetState() != FLAG && Tiles[i, j].GetState() == HIDDEN)
-                        {
-                            Tiles[i, j].SetState(FLAG);
-                            flagNum--;
-                        }
-                        else if (Tiles[i, j].GetState() == FLAG)
-                        {
-                            Tiles[i, j].SetState(HIDDEN);
-                            flagNum++;
-                        }
-                    }
-                }
-            }
-        }
+        //            while (Bombs.Count < EASY_MINES)
+        //            {
+        //                bombLocation = randomLocation.Next(0, EASY_COLUMN * EASY_ROWS + 1);
+
+        //                if (!Bombs.Contains(bombLocation))
+        //                {
+        //                    Bombs.Add(bombLocation);
+        //                }
+        //            }
+        //            break;
+        //        case MEDIUM:
+        //            graphics.PreferredBackBufferWidth = MEDIUM_TILE_SIZE * MEDIUM_COLUMN;
+        //            graphics.PreferredBackBufferHeight = MEDIUM_TILE_SIZE * MEDIUM_ROWS + HUD_HEIGHT;
+        //            graphics.ApplyChanges();
+
+        //            flagNum = MEDIUM_MINES;
+
+        //            Tiles = new Tile[MEDIUM_ROWS, MEDIUM_COLUMN];
+
+        //            while (Bombs.Count < MEDIUM_MINES)
+        //            {
+        //                bombLocation = randomLocation.Next(0, MEDIUM_COLUMN * MEDIUM_ROWS + 1);
+
+        //                if (!Bombs.Contains(bombLocation))
+        //                {
+        //                    Bombs.Add(bombLocation);
+        //                }
+        //            }
+        //            break;
+        //        case HARD:
+        //            graphics.PreferredBackBufferWidth = HARD_TILE_SIZE * HARD_COLUMN;
+        //            graphics.PreferredBackBufferHeight = HARD_TILE_SIZE * HARD_ROWS + HUD_HEIGHT;
+        //            graphics.ApplyChanges();
+
+        //            flagNum = HARD_MINES;
+
+        //            Tiles = new Tile[HARD_ROWS, HARD_COLUMN];
+
+        //            while (Bombs.Count < HARD_MINES)
+        //            {
+        //                bombLocation = randomLocation.Next(0, HARD_COLUMN * HARD_ROWS + 1);
+
+        //                if (!Bombs.Contains(bombLocation))
+        //                {
+        //                    Bombs.Add(bombLocation);
+        //                }
+        //            }
+        //            break;
+        //    }
+
+        //    SetTiles();
+
+        //    isReset = false;
+        //}
+
+        //private void SetTiles()
+        //{
+        //    switch (gameDiff)
+        //    {
+        //        case EASY:
+        //            for (int i = 0; i < EASY_ROWS; i++)
+        //            {
+        //                for (int j = 0; j < EASY_COLUMN; j++)
+        //                {
+        //                    Tiles[i, j] = new Tile(j * EASY_TILE_SIZE, i * EASY_TILE_SIZE + HUD_HEIGHT, i, j);
+        //                    Tiles[i, j].BombCount(Bombs);
+        //                    Tiles[i, j].SetBombColor(-1);
+        //                }
+        //            }
+        //            for (int i = 0; i < EASY_ROWS; i++)
+        //            {
+        //                for (int j = 0; j < EASY_COLUMN; j++)
+        //                {
+        //                    Tiles[i, j].SetAdj(Tiles);
+        //                }
+        //            }
+        //            break;
+        //        case MEDIUM:
+        //            for (int i = 0; i < MEDIUM_ROWS; i++)
+        //            {
+        //                for (int j = 0; j < MEDIUM_COLUMN; j++)
+        //                {
+        //                    Tiles[i, j] = new Tile(j * MEDIUM_TILE_SIZE, i * MEDIUM_TILE_SIZE + HUD_HEIGHT, i, j);
+        //                    Tiles[i, j].BombCount(Bombs);
+        //                    Tiles[i, j].SetBombColor(-1);
+        //                }
+        //            }
+        //            for (int i = 0; i < MEDIUM_ROWS; i++)
+        //            {
+        //                for (int j = 0; j < MEDIUM_COLUMN; j++)
+        //                {
+        //                    Tiles[i, j].SetAdj(Tiles);
+        //                }
+        //            }
+        //            break;
+        //        case HARD:
+        //            for (int i = 0; i < HARD_ROWS; i++)
+        //            {
+        //                for (int j = 0; j < HARD_COLUMN; j++)
+        //                {
+        //                    Tiles[i, j] = new Tile(j * HARD_TILE_SIZE, i * HARD_TILE_SIZE + HUD_HEIGHT, i, j);
+        //                    Tiles[i, j].BombCount(Bombs);
+        //                    Tiles[i, j].SetBombColor(-1);
+        //                }
+        //            }
+        //            for (int i = 0; i < HARD_ROWS; i++)
+        //            {
+        //                for (int j = 0; j < HARD_COLUMN; j++)
+        //                {
+        //                    Tiles[i, j].SetAdj(Tiles);
+        //                }
+        //            }
+        //            break;
+        //    }
+        //}
+
+        //private void ShowAllBomb(int row, int column)
+        //{
+        //    for (int k = 0; k < row; k++)
+        //    {
+        //        for (int l = 0; l < column; l++)
+        //        {
+        //            if (Tiles[k, l].IsBomb(Bombs) == true)
+        //            {
+        //                Tiles[k, l].SetState(BOMB);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void RevealTiles(Point mousePosition, int row, int column, int tileSize)
+        //{
+        //    for (int i = 0; i < row; i++)
+        //    {
+        //        for (int j = 0; j < column; j++)
+        //        {
+        //            if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
+        //            {
+        //                if (Tiles[i, j].IsBomb(Bombs) == true)
+        //                {
+        //                    ShowAllBomb(row, column);
+
+        //                    //instTimer.ResetTimer(true);
+
+        //                    //double timePassed = instTimer.GetTimePassed();
+        //                    ////int secPassed = 0;
+
+        //                    //if (timePassed >= 2000)
+        //                    {
+        //                        gameState = LOSE;
+        //                    }
+
+        //                }
+        //                else
+        //                {
+        //                    Tiles[i, j].RevealTiles();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void SetFlag(Point mousePosition, int row, int column, int tileSize)
+        //{
+        //    for (int i = 0; i < row; i++)
+        //    {
+        //        for (int j = 0; j < column; j++)
+        //        {
+        //            if (mousePosition.X > Tiles[i, j].GetX() && mousePosition.X < Tiles[i, j].GetX() + tileSize && mousePosition.Y > Tiles[i, j].GetY() && mousePosition.Y < Tiles[i, j].GetY() + tileSize)
+        //            {
+        //                if (Tiles[i, j].GetState() != FLAG && Tiles[i, j].GetState() == HIDDEN)
+        //                {
+        //                    Tiles[i, j].SetState(FLAG);
+        //                    flagNum--;
+        //                }
+        //                else if (Tiles[i, j].GetState() == FLAG)
+        //                {
+        //                    Tiles[i, j].SetState(HIDDEN);
+        //                    flagNum++;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private static void WriteFile()
         {
@@ -1438,32 +1503,32 @@ namespace YangA_MP2
             }
         }
 
-        private bool CheckWin(int row, int column, int bombCount)
-        {
-            int count = 0;
+        //private bool CheckWin(int row, int column, int bombCount)
+        //{
+        //    int count = 0;
 
-            for (int k = 0; k < row; k++)
-            {
-                for (int l = 0; l < column; l++)
-                {
-                    if (Tiles[k, l].IsBomb(Bombs) == false)
-                    {
-                        if (Tiles[k, l].GetState() == REVEALED)
-                        {
-                            count++;
-                        }
-                    }
-                }
-            }
+        //    for (int k = 0; k < row; k++)
+        //    {
+        //        for (int l = 0; l < column; l++)
+        //        {
+        //            if (Tiles[k, l].IsBomb(Bombs) == false)
+        //            {
+        //                if (Tiles[k, l].GetState() == REVEALED)
+        //                {
+        //                    count++;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            if (count == row * column - bombCount)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if (count == row * column - bombCount)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
     }
 }

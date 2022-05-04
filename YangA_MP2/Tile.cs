@@ -187,9 +187,9 @@ namespace YangA_MP2
             return tile;
         }
 
-        public void RevealTiles()
+        public void RevealTiles(List<int> bombs)
         {
-            if (IsBomb(Game1.Bombs) == false && GetChecked() == false && BombCount(Game1.Bombs) == 0)
+            if (IsBomb(bombs) == false && GetChecked() == false && BombCount(bombs) == 0)
             {
                 SetState(Game1.REVEALED);
                 SetChecked(true);
@@ -198,16 +198,16 @@ namespace YangA_MP2
                 {
                     if ((adjescantTiles[i] != null) )
                     {
-                        adjescantTiles[i].RevealTiles();
+                        adjescantTiles[i].RevealTiles(bombs);
                     }
                 }
             }
-            else if (IsBomb(Game1.Bombs) == false && GetChecked() == false)
+            else if (IsBomb(bombs) == false && GetChecked() == false)
             {
                 SetState(Game1.REVEALED);
                 SetChecked(true);
             }
-            else if (IsBomb(Game1.Bombs) == true && GetChecked() == false)
+            else if (IsBomb(bombs) == true && GetChecked() == false)
             {
                 SetState(Game1.BOMB);
                 SetChecked(true);
