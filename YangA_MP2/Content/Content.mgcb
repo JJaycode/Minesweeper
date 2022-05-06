@@ -224,6 +224,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Sprites/Exit.png
 
+#begin Images/Sprites/explode2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/explode2.png
+
 #begin Images/Sprites/flag.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -487,4 +499,46 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Sprites/Watch.png
+
+#begin Sounds/ClearFlag.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ClearFlag.wav
+
+#begin Sounds/LargeClear.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/LargeClear.wav
+
+#begin Sounds/Lose.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Lose.mp3
+
+#begin Sounds/Mine.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Mine.wav
+
+#begin Sounds/PlaceFlag.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/PlaceFlag.wav
+
+#begin Sounds/SmallClear.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SmallClear.wav
+
+#begin Sounds/Win.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Win.mp3
 

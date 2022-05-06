@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using Animation2D;
+
 namespace YangA_MP2
 {
     public class Tile
@@ -187,12 +194,29 @@ namespace YangA_MP2
             return tile;
         }
 
+        bool isBigPlayed = false;
+        int count = 0;
         public void RevealTiles()
         {
+            count++;
+
             if (IsBomb(Game1.Bombs) == false && GetChecked() == false && BombCount(Game1.Bombs) == 0)
             {
                 SetState(Game1.REVEALED);
                 SetChecked(true);
+
+                //if (isBigPlayed == false)
+                //{
+                //    SoundEffectInstance bigClear = Game1.bigClear.CreateInstance();
+
+                //    //float volume = 0.2f;
+                //    //float pitch = 0.0f;
+                //    //float pan = 0.0f;
+                //    //Game1.bigClear.Play(volume, pitch, pan);
+                //    bigClear.Volume = 0.2f;
+                //    bigClear.Play();
+                //    isBigPlayed = true;
+                //}
 
                 for (int i = 0; i < adjescantTiles.Count; i++)
                 {
